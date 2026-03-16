@@ -1,0 +1,12 @@
+{
+  "name": "mosaic-admin",
+  "version": "1.0.0",
+  "description": "Admin MCP plugin for managing Mosaic Wellness page configs — PDPs, widget pages, experiments, and brand settings via the Zeus admin-mcp server.",
+  "author": {
+    "name": "Mosaic Wellness",
+    "url": "https://github.com/mosaic-wellness"
+  },
+  "repository": "https://github.com/mosaic-wellness/ai-playbooks",
+  "license": "MIT",
+  "keywords": ["mosaic", "admin", "mcp", "pdp", "widget-pages", "experiments", "zeus"]
+}

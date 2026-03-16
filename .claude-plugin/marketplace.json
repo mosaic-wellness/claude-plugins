@@ -1,0 +1,15 @@
+{
+  "name": "mosaic-wellness",
+  "owner": {
+    "name": "Mosaic Wellness",
+    "email": "tech@mosaicwellness.in"
+  },
+  "plugins": [
+    {
+      "name": "mosaic-admin",
+      "description": "Admin MCP plugin for managing Mosaic Wellness page configs — PDPs, widget pages, experiments, and brand settings via the Zeus admin-mcp server.",
+      "version": "1.0.0",
+      "source": "./plugins/mosaic-admin"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Safety checks for admin-mcp write operations",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__admin-mcp__update_.*|mcp__admin-mcp__create_.*|mcp__admin-mcp__promote_.*|mcp__admin-mcp__upload_.*|mcp__admin-mcp__acquire_.*|mcp__admin-mcp__release_.*|mcp__admin-mcp__remove_.*|mcp__admin-mcp__publish_.*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the tool call includes a brand parameter. If the brand is NOT the default 'mm', add a brief warning: 'Writing to {brand} (not default mm) — confirm this is intentional.' If the tool is a write operation (update/create/promote) and no lock_token is provided, suggest acquiring a lock first for safety. Otherwise, approve silently."
+          }
+        ]
+      }
+    ]
+  }
+}
