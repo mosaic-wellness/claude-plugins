@@ -10,6 +10,12 @@
       "description": "Admin MCP plugin for managing Mosaic Wellness page configs — PDPs, widget pages, experiments, and brand settings via the Zeus admin-mcp server.",
       "version": "1.0.0",
       "source": "./plugins/mosaic-admin"
+    },
+    {
+      "name": "mosaic-tech",
+      "description": "AI app development assistant — setup review, debugging, architecture guidance, security audits, and best practices for teams building with Claude API, Agent SDK, and MCP servers.",
+      "version": "1.0.0",
+      "source": "./plugins/mosaic-tech"
     }
   ]
 }
