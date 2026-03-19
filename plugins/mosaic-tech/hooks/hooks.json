@@ -1,6 +1,16 @@
 {
-  "description": "Safety checks for AI application development — catches common security mistakes",
+  "description": "Safety checks and workflow discovery for AI application development",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Silently check if this project looks like an AI application by looking for any of these signals: package.json with 'anthropic' or '@anthropic-ai/sdk' or 'openai' or '@modelcontextprotocol' in dependencies, or a pyproject.toml/requirements.txt with 'anthropic' or 'openai' or 'langchain', or a .mcp.json file, or imports of these packages in source files. If ANY AI app signal is found, output EXACTLY this message (no other text): 'mosaic-tech is active — I can help you research tools, review your setup, debug issues, audit security, and more. Run /mosaic-tech to get started.' If NO signals are found, approve silently with no output."
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Write|Edit",
