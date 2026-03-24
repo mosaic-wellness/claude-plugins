@@ -75,6 +75,15 @@ You are working with the **admin-mcp** MCP server — a staging-only tool for ma
 7. **Don't set dynamic fields** — pricing, stock, ratings are injected by middleware at runtime
 8. **Add-to-cart uses URL key, NOT SKU** — When building checkout CTAs with `add-to-cart`, always use the product's `url_key` (e.g., `glp-1-eligibility-test`), never the SKU (e.g., `abc-3`). The storefront checkout page resolves products by URL key. Format: `/checkout-v2?add-to-cart={url_key}`. Use `search_products` or `get_product_info` to find the correct `url_key` for a product.
 
+## Bulk Operations
+
+When a task involves **4+ pages**, avoid fetching full configs into context. Use lightweight alternatives:
+
+- **Summary tools** (`get_widget_page_summary`, `get_pdp_summary`): Return ~500 bytes per page (widget IDs, types, titles, display order) instead of ~30KB. Use for auditing, comparing structures, or deciding which pages need edits.
+- **Bulk-fetch script** (`${CLAUDE_PLUGIN_ROOT}/scripts/bulk-fetch.sh`): Downloads full configs to temp files via direct HTTP. Responses never enter context. Use when you need full data for processing.
+
+Read `${CLAUDE_PLUGIN_ROOT}/skills/bulk-operations/SKILL.md` for the full decision tree and usage patterns.
+
 ## Post-Write Verification
 
 After ANY write, verify on staging:

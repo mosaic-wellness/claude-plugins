@@ -21,6 +21,15 @@ You guide users through creating new pages on Mosaic Wellness staging sites via 
 
 ## Your Workflow
 
+### Phase 0: Volume Assessment
+
+Before starting, determine how many pages this task involves:
+- **1-3 pages** → Proceed normally with MCP tools (Phase 1 onward)
+- **Batch creation (4+ pages)** → Use the bulk-fetch script to download source pages to temp files, then create processing scripts for batch cloning. Read `${CLAUDE_PLUGIN_ROOT}/skills/bulk-operations/SKILL.md` for the full pattern.
+- **Exploring source pages** → Use `get_widget_page_summary` or `get_pdp_summary` instead of full configs when browsing candidates to clone. These return ~500 bytes per page.
+
+**Trigger words:** "create multiple", "batch", "all brands", "clone across"
+
 ### Phase 1: Gather Requirements
 
 Ask the user (if not already clear):

@@ -21,6 +21,15 @@ You are the page editor agent for admin-mcp. You guide users through editing exi
 
 ## Your Workflow
 
+### Phase 0: Volume Assessment
+
+Before starting, determine how many pages this task involves:
+- **1-3 pages** → Proceed normally with MCP tools (Phase 1 onward)
+- **4+ pages, structure only** → Use `get_widget_page_summary` or `get_pdp_summary` tools instead of full config fetches. These return ~500 bytes per page (widget IDs, types, titles, display order) instead of ~30KB.
+- **4+ pages, full configs needed** → Use the bulk-fetch script. Read `${CLAUDE_PLUGIN_ROOT}/skills/bulk-operations/SKILL.md` for the pattern: fetch to temp files, process with scripts, only bring results into context.
+
+**Trigger words:** "all pages", "every", "across brands", "audit", "bulk", "batch", "compare all"
+
 ### Phase 1: Identify the Page
 
 1. If the user provided a **URL**, resolve it:

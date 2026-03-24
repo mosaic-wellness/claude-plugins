@@ -1,10 +1,10 @@
 # Admin MCP Tool Reference
 
-All 38 tools organized by category. Parameters marked (required) must be provided; all others have sensible defaults.
+All 41 tools organized by category. Parameters marked (required) must be provided; all others have sensible defaults.
 
 ---
 
-## PDP Tools (9)
+## PDP Tools (10)
 
 ### `list_pdp_pages` (READ)
 List PDP pages with optional filtering.
@@ -25,7 +25,16 @@ Fetch the full PDP JSON configuration.
 - `environment` — `"staging"` | `"production"`. Defaults to `"staging"`.
 - `language` — `"en"` | `"hi"`. Defaults to `"en"`.
 
-**When to use:** Reading current PDP content before making edits, understanding structure.
+**When to use:** Reading current PDP content before making edits, understanding structure. For bulk operations (4+ pages), prefer `get_pdp_summary` instead.
+
+### `get_pdp_summary` (READ)
+Fetch a lightweight PDP summary — product info, widget IDs/types/titles, display order, and format type (widgetized vs legacy). Returns ~500 bytes instead of ~20KB.
+- `page_name` (required) — PDP filename including `.json`.
+- `brand` — Defaults to config default.
+- `environment` — `"staging"` | `"production"`. Defaults to `"staging"`.
+- `language` — `"en"` | `"hi"`. Defaults to `"en"`.
+
+**When to use:** Auditing multiple PDPs, comparing structures, finding pages with specific widget types. Use instead of `get_pdp_config` when you don't need full widget data.
 
 ### `get_pdp_schema` (READ)
 Get the required keys/structure for a PDP page type.
@@ -96,7 +105,7 @@ Upload an image from a URL to the PDP images S3 bucket.
 
 ---
 
-## Widget Page Tools (8)
+## Widget Page Tools (9)
 
 ### `list_widget_pages` (READ)
 List widget pages with optional filtering.
@@ -115,7 +124,16 @@ Fetch the full widget page JSON configuration.
 - `environment` — `"staging"` | `"production"`. Defaults to `"staging"`.
 - `repeat_user` — Boolean. Fetch repeat-user variant. Defaults to `false`.
 
-**When to use:** Reading current widget page content, understanding widget structure.
+**When to use:** Reading current widget page content, understanding widget structure. For bulk operations (4+ pages), prefer `get_widget_page_summary` instead.
+
+### `get_widget_page_summary` (READ)
+Fetch a lightweight widget page summary — widget IDs, types, titles, display order, and platform override counts. Returns ~500 bytes instead of ~30KB.
+- `identifier` (required) — Page slug without `.json`.
+- `brand` — Defaults to config default.
+- `environment` — `"staging"` | `"production"`. Defaults to `"staging"`.
+- `repeat_user` — Boolean. Defaults to `false`.
+
+**When to use:** Auditing multiple pages, comparing structures, finding pages with specific widget types. Use instead of `get_widget_page_config` when you don't need full widget data.
 
 ### `diff_widget_page_versions` (READ)
 Compare versions of a widget page.
