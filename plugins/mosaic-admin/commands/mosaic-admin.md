@@ -45,7 +45,15 @@ If `$ARGUMENTS` is empty, present an interactive menu using AskUserQuestion:
       "options": [
         {
           "label": "Page content",
-          "description": "Update a page at a specific URL, or manage widgets (add, remove, reorder, hide/show)"
+          "description": "Update a PDP or widget/landing page at a specific URL, or manage widgets (add, remove, reorder, hide/show)"
+        },
+        {
+          "label": "Page configs",
+          "description": "Manage category, sub-category, growth, shop, fest, or ingredients pages"
+        },
+        {
+          "label": "App config",
+          "description": "Manage mobile app config — feature flags, bottom tabs, version gating, deep links"
         },
         {
           "label": "Widgets & schemas",
@@ -88,6 +96,10 @@ If `$ARGUMENTS` is empty, present an interactive menu using AskUserQuestion:
 
 - **Page content + Quick lookup** → Read `${CLAUDE_PLUGIN_ROOT}/references/route-reference.md`
 - **Page content + Make a change** → Read `${CLAUDE_PLUGIN_ROOT}/references/workflow-patterns.md` and `${CLAUDE_PLUGIN_ROOT}/references/display-order-guide.md`
+- **Page configs + Quick lookup** → Read `${CLAUDE_PLUGIN_ROOT}/references/page-config-reference.md`
+- **Page configs + Make a change** → Read `${CLAUDE_PLUGIN_ROOT}/references/page-config-reference.md` and guide through edit workflow
+- **App config + Quick lookup** → Read `${CLAUDE_PLUGIN_ROOT}/references/app-config-reference.md`
+- **App config + Make a change** → Read `${CLAUDE_PLUGIN_ROOT}/references/app-config-reference.md` and guide through edit workflow
 - **Widgets & schemas** (any scope) → Use `list_widget_types` / `get_widget_schema` MCP tools + read `${CLAUDE_PLUGIN_ROOT}/references/widget-type-catalog.md`
 - **Experiments + Quick lookup** → Read `${CLAUDE_PLUGIN_ROOT}/references/experiment-lifecycle.md`
 - **Experiments + Make a change** → Read `${CLAUDE_PLUGIN_ROOT}/references/experiment-lifecycle.md` and walk through creation steps
@@ -108,6 +120,8 @@ If `$ARGUMENTS` is empty, present an interactive menu using AskUserQuestion:
 7. **Display order / hide-show** → Read `${CLAUDE_PLUGIN_ROOT}/references/display-order-guide.md`
 8. **Experiment / A/B test** → Read `${CLAUDE_PLUGIN_ROOT}/references/experiment-lifecycle.md`
 9. **PDP pipeline** → Read `${CLAUDE_PLUGIN_ROOT}/references/pdp-transformation-pipeline.md`
+10. **Page config** (category, sub-category, growth, fest, shop, ingredients) → Read `${CLAUDE_PLUGIN_ROOT}/references/page-config-reference.md`
+11. **App config** (mobile feature flags, tabs, version gating) → Read `${CLAUDE_PLUGIN_ROOT}/references/app-config-reference.md`
 
 ---
 

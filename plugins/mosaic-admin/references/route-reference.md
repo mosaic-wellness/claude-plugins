@@ -14,7 +14,12 @@ Maps URLs to admin-mcp page types and tools.
 | `/dp/{urlKey}` | Widgetized PDP (flag-gated, no experiments) | PDP tools | `{urlKey}.json` |
 | `/dp/{urlKey}/{productUrlKey}` | Widgetized PDP variant (flag-gated) | PDP tools | `{productUrlKey}.json` |
 | `/{slug}` (catch-all) | Unknown — check both | Try Widget Page first, then PDP | `{slug}` or `{slug}.json` |
-| `/shop/*` | Shop / Category | **NOT supported** | — |
+| `/category/{name}` | Category Page | Page Config tools | `categories/{name}` |
+| `/sub-category/{name}` | Sub-Category Page | Page Config tools | `sub-categories/{name}` |
+| `/growth/*` | Growth Page | Page Config tools | `growth/{name}` |
+| `/fest/{name}` | Fest/Event Page | Page Config tools | `fest/{name}` |
+| `/shop`, `/v2/shop-page` | Shop Page | Page Config tools | `shop-page` or `v2/shop-page` |
+| `/ingredients/{name}` | Ingredients Page | Page Config tools | `ingredients/{name}` |
 | `/account/*` | Account | **NOT supported** | — |
 | `/consultation/*` | Consultation | **NOT supported** | — |
 | `/forms/*` | Forms | **NOT supported** | — |
@@ -90,17 +95,52 @@ When the path doesn't match a known pattern (like `/some-landing-page`):
 
 ---
 
-## Section 4: Pages NOT Supported by Admin-MCP
+## Section 4: Page Configs (Category, Sub-Category, Growth, Fest, Shop, Ingredients)
 
-These page types are not managed through admin-mcp and cannot be edited with its tools:
+These page types live in the same `pagedata` S3 bucket as widget pages but use type-specific path prefixes. They can often be managed using widget page tools with the appropriate identifier.
+
+| URL Pattern | Page Type | S3 Key | Try With Widget Tools |
+|---|---|---|---|
+| `/category/{name}` | Category | `categories/{name}` | `get_widget_page_config(identifier: "categories/{name}", brand)` |
+| `/sub-category/{name}` | Sub-Category | `sub-categories/{name}` | `get_widget_page_config(identifier: "sub-categories/{name}", brand)` |
+| `/growth/*` | Growth | `growth/{name}` | `get_widget_page_config(identifier: "growth/{name}", brand)` |
+| `/fest/{name}` | Fest/Event | `fest/{name}` | `get_widget_page_config(identifier: "fest/{name}", brand)` |
+| `/shop` | Shop | `shop-page` | `get_widget_page_config(identifier: "shop-page", brand)` |
+| `/ingredients/{name}` | Ingredients | `ingredients/{name}` | `get_widget_page_config(identifier: "ingredients/{name}", brand)` |
+
+See `${CLAUDE_PLUGIN_ROOT}/references/page-config-reference.md` for full details.
+
+---
+
+## Section 5: App Config (Mobile)
+
+The Mosaic RN Mobile App fetches configuration from:
+
+| Endpoint | Auth | Purpose |
+|---|---|---|
+| `/utility/app-config-merge?staticVersion=v2` | Yes | **Primary** — merged static + dynamic config |
+| `/utility/app-config-static` | No | Raw base config from S3 |
+| `/utility/app-config-dynamic` | Yes | User-specific dynamic config |
+| `/utility/app-config` | Yes | Custom merged config |
+
+**S3 key:** `app-config-merge` (or `app-config-v2`) in the `pagedata` bucket.
+
+Try reading with: `get_widget_page_config(identifier: "app-config-merge", brand: "mm")`
+
+See `${CLAUDE_PLUGIN_ROOT}/references/app-config-reference.md` for full details on config structure, feature flags, bottom tabs, and version gating.
+
+---
+
+## Section 6: Pages NOT Supported by Admin-MCP
+
+These page types cannot be managed through admin-mcp or S3 JSON configs:
 
 | Path Pattern | Why Not Supported |
 |---|---|
-| `/shop/*` | Category/shop pages are powered by Magento and static-service, not S3 JSON configs |
 | `/account/*` | Account pages are rendered by frontend components with API data, no S3 config |
 | `/consultation/*` | Consultation flow is managed by health-service, not page configs |
 | `/forms/*` | Forms are managed by the forms service |
 | `/checkout/*` | Checkout flow is managed by middleware + OMS, not page configs |
 | `/blog/*` | Blog content is managed separately |
 
-If a user asks to update one of these pages, explain that admin-mcp only manages **widgetized pages** (home, landing pages, PDPs) that are backed by S3 JSON configurations.
+If a user asks to update one of these pages, explain that admin-mcp manages **S3-backed JSON configurations** — pages driven by other services or databases require changes in the respective service repos.

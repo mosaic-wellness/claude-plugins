@@ -48,8 +48,18 @@ You are working with the **admin-mcp** MCP server — a staging-only tool for ma
 | `/product/{urlKey}` | PDP (+ experiments) | `{urlKey}.json` | `get_pdp_config`, `update_pdp_section` |
 | `/dp/{urlKey}` | PDP (no experiments) | `{urlKey}.json` | `get_pdp_config`, `update_pdp_section` |
 | `/{slug}` (catch-all) | Unknown | Try both | Widget page first (`{slug}`), then PDP (`{slug}.json`) |
+| `/category/{name}` | Category Page | Page Config tools | `categories/{name}` |
+| `/sub-category/{name}` | Sub-Category Page | Page Config tools | `sub-categories/{name}` |
+| `/growth/*` | Growth Page | Page Config tools | `growth/{name}` |
+| `/fest/{name}` | Fest/Event Page | Page Config tools | `fest/{name}` |
+| `/shop`, `/v2/shop-page` | Shop Page | Page Config tools | `shop-page` or `v2/shop-page` |
+| `/ingredients/{name}` | Ingredients Page | Page Config tools | `ingredients/{name}` |
 
-**Not supported:** `/shop/*`, `/account/*`, `/consultation/*`, `/forms/*`, `/checkout/*`, `/blog/*`
+**Not supported:** `/account/*`, `/consultation/*`, `/forms/*`, `/checkout/*`, `/blog/*`
+
+**Page Configs (non-PDP, non-widget):** Category, sub-category, growth, fest, shop, and ingredients pages live in the same `pagedata` S3 bucket but use type-specific path prefixes. Read `${CLAUDE_PLUGIN_ROOT}/references/page-config-reference.md` for full details.
+
+**App Config (Mobile):** The RN mobile app fetches its config from `/utility/app-config-merge?staticVersion=v2`. This config controls feature flags, bottom tabs, version gating, and UI settings. Read `${CLAUDE_PLUGIN_ROOT}/references/app-config-reference.md` for full details.
 
 ## Identifier Format Rules
 
@@ -104,3 +114,5 @@ For deeper knowledge, read files from `${CLAUDE_PLUGIN_ROOT}/references/`:
 - `pdp-transformation-pipeline.md` — 7-step middleware enrichment
 - `tool-reference.md` — All 38 tools with "when to use" guidance
 - `error-handling.md` — Common errors and resolutions
+- `page-config-reference.md` — Category, sub-category, growth, fest, shop, ingredients page configs
+- `app-config-reference.md` — Mobile app config (feature flags, tabs, version gating)
