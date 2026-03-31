@@ -1,16 +1,16 @@
 ---
 name: mosaic-tech
 description: >
-  AI app development assistant — one-click setup review, debugging, architecture guidance, and
-  security checks for projects using Claude API, Anthropic SDK, Agent SDK, or MCP servers.
-  Examples: "/mosaic-tech" (interactive menu), "/mosaic-tech review" (full project scan),
-  "/mosaic-tech doctor" (quick health check), "/mosaic-tech debug" (troubleshoot issues),
-  "/mosaic-tech security" (security audit), "/mosaic-tech stack" (architecture advice),
-  "/mosaic-tech help" (list all commands).
+  AI app development assistant — research existing tools before building, setup review, debugging,
+  architecture guidance, and security checks for projects using Claude API, Anthropic SDK, Agent SDK,
+  or MCP servers. Examples: "/mosaic-tech" (guided menu), "/mosaic-tech architect" (research tools
+  before building), "/mosaic-tech review" (full project scan), "/mosaic-tech doctor" (quick health
+  check), "/mosaic-tech debug" (troubleshoot issues), "/mosaic-tech security" (security audit),
+  "/mosaic-tech stack" (architecture advice), "/mosaic-tech help" (list all commands).
 user-invocable: true
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash, Write, Edit, WebSearch, WebFetch, ToolSearch, AskUserQuestion
-argument-hint: "[help | doctor | review | debug | security | stack | init]"
+allowed-tools: Read, Glob, Grep, Bash, Write, Edit, WebSearch, WebFetch, ToolSearch, AskUserQuestion, Agent
+argument-hint: "[help | architect | doctor | review | debug | security | stack | init]"
 ---
 
 # Mosaic Tech — AI App Development Assistant
@@ -28,13 +28,14 @@ Match `$ARGUMENTS` against the subcommand table below. Matching is case-insensit
 | Subcommand | Aliases | Action |
 |---|---|---|
 | `help` | `--help`, `-h`, `commands`, `?` | → Show **Help Card** (Step A) |
+| `architect` | `research`, `explore`, `discover`, `evaluate`, `find-tools` | → Spawn `tech-architect` agent (Step A2) |
 | `doctor` | `health`, `check`, `diagnose` | → Run **Quick Doctor** (Step B) |
 | `review` | `scan`, `audit-setup`, `setup` | → Spawn `setup-reviewer` agent (Step C) |
 | `debug` | `fix`, `error`, `broken`, `troubleshoot` | → Spawn `debugger` agent (Step D) |
 | `security` | `audit`, `keys`, `secrets`, `sec` | → Spawn `security-auditor` agent (Step E) |
 | `stack` | `architecture`, `arch`, `choose`, `recommend` | → Spawn `stack-advisor` agent (Step F) |
 | `init` | `bootstrap`, `scaffold`, `new` | → Run **Project Init** (Step G) |
-| _(empty)_ | | → Show **Interactive Menu** (Step H) |
+| _(empty)_ | | → Show **Guided Menu** (Step H) |
 | _(anything else)_ | | → Treat as a **question**, answer using reference docs |
 
 ---
@@ -50,26 +51,38 @@ USAGE
   /mosaic-tech [command]
 
 COMMANDS
-  help        Show this help card
+  (none)      Guided menu — tells you what's available based on what you need
+  architect   Research existing tools before building — find what's already out there
   doctor      Quick health check (30s) — SDK versions, API key, .gitignore, model IDs
   review      Full setup review — deep scan across 8 categories with health report
   debug       Troubleshoot errors — systematic triage of API/SDK/MCP issues
   security    Security audit — leaked keys, prompt injection, PII, dependency vulns
   stack       Architecture advice — model selection, SDK choice, design patterns
   init        Bootstrap a new AI project — scaffold with best practices baked in
+  help        Show this help card
 
 EXAMPLES
-  /mosaic-tech                    Interactive menu
-  /mosaic-tech doctor             Quick health check
-  /mosaic-tech review             Full project scan
-  /mosaic-tech debug              Fix a broken setup
-  /mosaic-tech security           Find security issues
-  /mosaic-tech stack              Get architecture guidance
-  /mosaic-tech init               Scaffold a new AI project
+  /mosaic-tech                                  Guided menu (start here if unsure)
+  /mosaic-tech architect                        Research tools before building
+  /mosaic-tech architect "WhatsApp chatbot"     Research with context
+  /mosaic-tech doctor                           Quick health check
+  /mosaic-tech review                           Full project scan
+  /mosaic-tech debug                            Fix a broken setup
+  /mosaic-tech security                         Find security issues
+  /mosaic-tech stack                            Get architecture guidance
+  /mosaic-tech init                             Scaffold a new AI project
   /mosaic-tech "why am I getting 429 errors?"   Ask a specific question
 ```
 
 Stop after showing the help card — don't scan anything.
+
+---
+
+## Step A2: Architect → Spawn Agent
+
+Spawn the `tech-architect` agent. If `$ARGUMENTS` contains more than just "architect" (e.g., "architect I need a WhatsApp chatbot for order tracking"), pass the full description to the agent so it can skip the initial discovery questions. Otherwise, the agent will interview the user about their idea.
+
+Read `${CLAUDE_PLUGIN_ROOT}/references/oss-evaluation-guide.md` and pass it as context to the agent.
 
 ---
 
@@ -195,9 +208,19 @@ Read `${CLAUDE_PLUGIN_ROOT}/references/` for implementation patterns to include 
 
 ---
 
-## Step H: Interactive Menu
+## Step H: Guided Menu
 
-If no arguments provided, show a menu:
+If no arguments provided, first display a brief intro, then show a use-case-driven menu:
+
+Display this intro:
+
+```
+mosaic-tech helps you build AI apps without reinventing the wheel.
+It can research existing tools, review your setup, catch security issues,
+debug problems, and recommend the right architecture — all in plain language.
+```
+
+Then use AskUserQuestion:
 
 ```
 Use AskUserQuestion with:
@@ -205,23 +228,24 @@ Use AskUserQuestion with:
   "questions": [
     {
       "key": "action",
-      "question": "What do you need help with?",
+      "question": "What are you trying to do?",
       "type": "single_select",
       "options": [
-        {"value": "doctor", "label": "Quick Health Check — fast 30-second scan"},
-        {"value": "review", "label": "Full Setup Review — deep scan with health report"},
-        {"value": "debug", "label": "Debug — something's broken, help me fix it"},
-        {"value": "security", "label": "Security Audit — check for leaked keys, injection risks"},
-        {"value": "stack", "label": "Stack Advice — help me choose the right approach/model/pattern"},
-        {"value": "init", "label": "Init — scaffold a new AI project with best practices"},
-        {"value": "help", "label": "Help — show all available commands"}
+        {"value": "architect", "label": "I have an idea and want to explore what tools already exist"},
+        {"value": "review", "label": "I've started building something and want to check if I'm on track"},
+        {"value": "debug", "label": "Something is broken and I need help fixing it"},
+        {"value": "security", "label": "I want to make sure my app is secure before sharing it"},
+        {"value": "stack", "label": "I need help choosing the right AI model, SDK, or approach"},
+        {"value": "init", "label": "I want to start a new project from scratch"},
+        {"value": "doctor", "label": "Just run a quick health check on my project"},
+        {"value": "help", "label": "Show me all available commands"}
       ]
     }
   ]
 }
 ```
 
-Then execute the selected action.
+Then execute the selected action by following the corresponding Step.
 
 ---
 
@@ -245,5 +269,5 @@ Build a mental model of the project before proceeding. Don't dump raw output to 
 After completing any subcommand, always end with:
 
 ```
-Run /mosaic-tech help to see all commands, or /mosaic-tech for the interactive menu.
+Run /mosaic-tech to see what else I can help with, or /mosaic-tech help for the full command list.
 ```
