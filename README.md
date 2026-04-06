@@ -7,6 +7,7 @@ Claude Code plugins for Mosaic Wellness teams.
 | Plugin | Description |
 |---|---|
 | [mosaic-admin](./plugins/mosaic-admin/) | Admin MCP plugin for managing page configs (PDPs, widget pages, experiments) via Zeus |
+| [meta-ads](./plugins/meta-ads/) | Meta Marketing API plugin for ad account discovery, reporting, and async insights via a local stdio MCP bridge |
 
 ## Installation
 
@@ -16,6 +17,7 @@ Claude Code plugins for Mosaic Wellness teams.
 
 # 2. Install any plugin
 /plugin install mosaic-admin
+/plugin install meta-ads
 ```
 
 ## Adding a New Plugin

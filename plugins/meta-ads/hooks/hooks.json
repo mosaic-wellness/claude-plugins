@@ -1,0 +1,27 @@
+{
+  "description": "Safety checks for Meta Marketing API secrets and reporting setup",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check whether the write/edit operation would store a real Meta credential in a repo file. Block the operation if the content includes a non-placeholder value for META_ACCESS_TOKEN, META_APP_SECRET, access_token=, appsecret_proof=, or a long token-like string in .mcp.json, README, markdown, or source files. Allow placeholders such as YOUR_TOKEN_HERE and YOUR_APP_SECRET_HERE. If a real secret is detected, warn: 'Detected what looks like a real Meta credential. Store it in ~/.config/claude/meta-ads.env instead of the repository.'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Inspect bash output for Meta credential leakage. If the output appears to include a real access token, app secret, access_token query param, or appsecret_proof hash, warn: 'Meta credential detected in command output — remove it from logs and keep secrets in ~/.config/claude/meta-ads.env.' Otherwise approve silently."
+          }
+        ]
+      }
+    ]
+  }
+}
