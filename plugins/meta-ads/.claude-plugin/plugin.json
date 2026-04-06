@@ -1,0 +1,12 @@
+{
+  "name": "meta-ads",
+  "version": "1.0.0",
+  "description": "Meta Marketing API assistant for Claude Code with a local stdio MCP server for ad account discovery, delivery reporting, campaign drill-downs, and async insights jobs.",
+  "author": {
+    "name": "Mosaic Wellness",
+    "url": "https://github.com/mosaic-wellness"
+  },
+  "repository": "https://github.com/mosaic-wellness/claude-plugins",
+  "license": "MIT",
+  "keywords": ["meta", "facebook", "instagram", "marketing-api", "ads", "mcp", "reporting", "insights"]
+}

@@ -16,6 +16,12 @@
       "description": "AI app development assistant — setup review, debugging, architecture guidance, security audits, and best practices for teams building with Claude API, Agent SDK, and MCP servers.",
       "version": "1.0.0",
       "source": "./plugins/mosaic-tech"
+    },
+    {
+      "name": "meta-ads",
+      "description": "Meta Marketing API assistant with a local stdio MCP bridge for ad account discovery, campaign drill-downs, delivery metrics, performance reporting, and async insights jobs.",
+      "version": "1.0.0",
+      "source": "./plugins/meta-ads"
     }
   ]
 }
