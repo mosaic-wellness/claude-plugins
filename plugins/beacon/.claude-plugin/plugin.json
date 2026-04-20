@@ -2,7 +2,10 @@
   "name": "beacon",
   "version": "2.0.0",
   "description": "Technical co-pilot for non-engineering teams — health checks, stack review, UX audits, brainstorming, documentation, debugging, and weekly coaching.",
-  "author": "Mosaic Wellness",
+  "author": {
+    "name": "Mosaic Wellness",
+    "email": "tech@mosaicwellness.in"
+  },
   "keywords": [
     "technical-copilot",
     "health-check",
