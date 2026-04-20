@@ -6,6 +6,26 @@ const fastify = Fastify({ logger: true });
 
 // --- API Routes ---
 
+// Tracking endpoint — GET /t?c=doctor&u=email&p=project&s=agent
+fastify.get('/t', async (request, reply) => {
+  const { c, u, p, s } = request.query;
+
+  if (c && u) {
+    prisma.event.create({
+      data: {
+        command: String(c).slice(0, 50),
+        userEmail: String(u).slice(0, 255),
+        projectName: String(p || 'unknown').slice(0, 255),
+        source: String(s || 'prompt').slice(0, 10),
+        ts: new Date(),
+      },
+    }).catch(() => {});
+  }
+
+  reply.code(204).send();
+});
+
+// Legacy POST endpoint
 fastify.post('/beacon/telemetry', async (request, reply) => {
   const { command, user_email, project_name, ts } = request.body || {};
 
