@@ -1,83 +1,80 @@
 # beacon
 
-Technical co-pilot for non-engineering teams at Mosaic Wellness.
+Your project's technical co-pilot.
 
-Helps product managers, ops people, revenue analysts, and growth team members build and maintain internal tools with confidence. Speaks your language, catches real problems, offers to do the work.
+Built for product managers, ops people, revenue analysts, and growth teams at Mosaic Wellness who build internal tools with Claude Code. Beacon catches what breaks in production, helps you plan features, and makes sure your work is ready before anyone else sees it.
 
 ## Installation
 
-### From Marketplace
-
 ```bash
-claude install beacon
-```
+# From the Mosaic marketplace
+/plugin install beacon
 
-### Local Development
-
-```bash
-git clone <repo-url>
+# Or link locally for development
+git clone git@github.com:mosaic-wellness/claude-plugins.git
 cd claude-plugins/plugins/beacon
 claude plugin link .
 ```
 
 ## Commands
 
+Just run `/beacon` to see the interactive menu — or jump straight to what you need:
+
 | What you want to do | Command |
 |---------------------|---------|
-| Check before sharing | `/beacon doctor` |
-| Check my tech choices | `/beacon review-stack` |
-| Review how this is built | `/beacon review` |
-| Review the user journey | `/beacon ux` |
-| Help me plan a feature | `/beacon brainstorm` |
-| Give me the real feedback | `/beacon grillme` |
+| Is this ready to share? | `/beacon doctor` |
+| Are my tech choices solid? | `/beacon review-stack` |
+| How does this hold up? | `/beacon review` |
+| Would a user actually like this? | `/beacon ux` |
+| I have an idea | `/beacon brainstorm` |
+| Give it to me straight | `/beacon grillme` |
 | Write it down for me | `/beacon document [prd\|spec\|adr\|update\|refresh]` |
-| Help me fix a bug | `/beacon debug` |
-| See how I'm using Claude | `/beacon 10x [all]` |
+| Something's broken | `/beacon debug` |
+| Get more out of Claude | `/beacon 10x` |
 | What plugins should I use? | `/beacon recommendations` |
-| Show me everything | `/beacon help` |
-
-Just run `/beacon` with no arguments to see the interactive menu.
 
 ## What's Inside
 
 ### 9 Agents
 
-| Agent | Purpose | Model |
-|-------|---------|-------|
-| doctor | Thorough health audit (80+ checks) | Sonnet |
-| reviewer | Intent-first architecture review | Sonnet |
-| stack-reviewer | Stack red flag detection | Sonnet |
-| ux-reviewer | UX audit for internal tools | Sonnet |
-| brainstormer | Idea → structured spec | Sonnet |
-| grillme | Holistic product + code review | Sonnet |
-| documenter | PRD / spec / ADR generator | Sonnet |
-| debugger | Structured debugging workflow | Sonnet |
-| coach | Weekly coaching report | Opus |
+| Agent | What it does | Model |
+|-------|-------------|-------|
+| doctor | Find what breaks before someone else does — 80+ checks across reliability, safety, code quality, and UX | Sonnet |
+| stack-reviewer | Quick red flag scan — wrong database, missing auth, deprecated models, exposed keys | Sonnet |
+| reviewer | Architecture review that asks about your intent before judging | Sonnet |
+| ux-reviewer | UX audit from your users' perspective, with time estimates | Sonnet |
+| brainstormer | Turn a rough idea into a clear 1-page spec through conversation | Sonnet |
+| grillme | Honest product + code review — starts with what's good, then what your VP would notice | Sonnet |
+| documenter | Create PRDs, tech specs, and decision records — updates and refreshes them too | Sonnet |
+| debugger | Structured debugging — classify, hypothesize, investigate, fix, document | Sonnet |
+| coach | Coaching report that finds your superpowers and time sinks with Claude Code | Opus |
 
-### 4 Skills
+### 4 Skills (auto-loaded knowledge)
 
-| Skill | Purpose |
-|-------|---------|
-| conventions | Approved stack, project structure, security, deployment, tone |
-| ai-app-conventions | Model selection, cost management, AI safety, MCP |
-| ux-heuristics | UX patterns for internal tools |
-| doc-templates | PRD, tech spec, ADR templates |
+| Skill | When it loads |
+|-------|--------------|
+| conventions | Every command — approved stack, project structure, security, deployment, tone |
+| ai-app-conventions | When AI SDK is detected — model selection, cost management, safety |
+| ux-heuristics | During UX reviews — Nielsen's 10 for internal tools, data table patterns |
+| doc-templates | During document commands — PRD, tech spec, ADR templates with mermaid |
 
-### 2 Hooks
+### 2 Safety Hooks
 
-- **PreToolUse (Write/Edit):** Blocks hardcoded API keys
-- **PostToolUse (Bash):** Warns on leaked keys in output
+- **On file write/edit:** Blocks if you're about to commit a hardcoded API key
+- **On bash output:** Warns if a command leaked a key in its output
 
 ## Approved Stack
 
-| Layer | Choice |
-|-------|--------|
-| Backend | Fastify (Node 20 LTS) |
-| Frontend | React + Vite |
-| Database | MySQL + Prisma |
-| Auth | Google OAuth |
-| Deployment | EC2 |
-| AI SDK | @anthropic-ai/sdk |
+Beacon enforces these choices across all commands:
+
+| Layer | Choice | What's blocked |
+|-------|--------|---------------|
+| Backend | Fastify (Node 20 LTS) | Express, Hono, Nest.js |
+| Frontend | React + Vite | Next.js (unless SSR justified), Vue, Angular |
+| Database | MySQL + Prisma | SQLite, PostgreSQL, MongoDB |
+| Auth | Google OAuth | Custom JWT as sole auth, passport-local |
+| Deployment | EC2 | Vercel, Lambda, Docker |
+| AI SDK | @anthropic-ai/sdk | LangChain, OpenAI, frontend API calls |
 
 ## License
 
