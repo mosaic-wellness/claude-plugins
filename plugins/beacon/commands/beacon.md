@@ -61,20 +61,35 @@ If ANY found → show returning user menu (Section 5).
 
 ## 4. First-Run Greeting
 
-Output this greeting text:
+Output this greeting text first:
 
+"Hey! I'm beacon — your project's technical co-pilot. I catch the stuff that breaks in production, help you plan features, and make sure your work is ready before anyone else sees it."
+
+Then IMMEDIATELY call the `AskUserQuestion` tool with this exact structure:
+
+```json
+{
+  "questions": [{
+    "question": "What sounds useful right now?",
+    "header": "Get started",
+    "multiSelect": false,
+    "options": [
+      {
+        "label": "Quick health scan",
+        "description": "I'll look at your project and tell you the 3 most important things"
+      },
+      {
+        "label": "Help me build something",
+        "description": "Brainstorm a feature or plan what's next"
+      },
+      {
+        "label": "Show me everything",
+        "description": "See all the ways I can help"
+      }
+    ]
+  }]
+}
 ```
-Hey! I'm beacon — your project's technical co-pilot.
-
-I catch the stuff that breaks in production, help you plan features,
-and make sure your work is ready before anyone else sees it.
-```
-
-Then use **AskUserQuestion** to present these options as selectable choices (the user picks one with arrow keys + enter):
-
-- **Quick health scan** — I'll look at your project and tell you the 3 most important things
-- **Help me build something** — brainstorm a feature or plan what's next
-- **Show me everything** — see all the ways I can help
 
 **Option "Quick health scan" behavior:** Run a capped first-pass scan — NOT a full doctor audit. Perform these 7 lightweight checks:
 
@@ -101,22 +116,56 @@ If user says yes → spawn `doctor` agent.
 
 ## 5. Returning User Menu
 
-Use **AskUserQuestion** to present these as selectable choices. Each option is a task the user wants to accomplish — the command alias is secondary context, not the label.
+Call the `AskUserQuestion` tool with this exact structure:
 
-Options to present:
+```json
+{
+  "questions": [{
+    "question": "What can I help with?",
+    "header": "Beacon",
+    "multiSelect": false,
+    "options": [
+      {
+        "label": "Is this ready to share?",
+        "description": "Find what breaks before someone else does — full health audit"
+      },
+      {
+        "label": "I have an idea",
+        "description": "Turn a rough idea into a clear 1-page spec through conversation"
+      },
+      {
+        "label": "Give it to me straight",
+        "description": "Honest product + code review — good stuff first, then what your VP would notice"
+      },
+      {
+        "label": "Something's broken",
+        "description": "Structured debugging that classifies, investigates, and fixes the root cause"
+      }
+    ]
+  }]
+}
+```
 
-- **Is this ready to share?** — find what breaks before someone else does _(doctor)_
-- **Are my tech choices solid?** — quick red flag scan against the approved stack _(review-stack)_
-- **How does this hold up?** — architecture review that asks before judging _(review)_
-- **Would a user actually like this?** — UX audit from your users' perspective _(ux)_
-- **I have an idea** — turn a rough idea into a clear 1-page spec _(brainstorm)_
-- **Give it to me straight** — honest product + code review, good stuff first _(grillme)_
-- **Write it down for me** — create a PRD, tech spec, or decision record _(document)_
-- **Something's broken** — structured debugging that finds the root cause _(debug)_
-- **Get more out of Claude** — coaching report to boost your productivity _(10x)_
-- **What plugins should I use?** — recommendations for your workflow _(recommendations)_
+If the user selects "Other" and types a different request, match it against the full routing table (Section 2).
 
-Route the selected option to the corresponding agent or inline handler.
+**Routing for selected options:**
+- "Is this ready to share?" → spawn `doctor` agent
+- "I have an idea" → spawn `brainstormer` agent
+- "Give it to me straight" → spawn `grillme` agent
+- "Something's broken" → spawn `debugger` agent
+
+**After handling the selected option**, if the user asks for more commands or says "show me everything", display the full command list:
+
+```
+More things I can do:
+
+  Are my tech choices solid?        /beacon review-stack
+  How does this hold up?            /beacon review
+  Would a user actually like this?  /beacon ux
+  Write it down for me              /beacon document [prd|spec|adr|update|refresh]
+  Get more out of Claude            /beacon 10x
+  What plugins should I use?        /beacon recommendations
+```
 
 ---
 
