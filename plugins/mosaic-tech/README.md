@@ -1,78 +1,84 @@
 # mosaic-tech
 
-AI application development assistant for Mosaic Wellness engineering teams. One-click setup review, debugging, architecture guidance, and security audits for projects using Claude API, Agent SDK, and MCP servers.
+Technical co-pilot for non-engineering teams at Mosaic Wellness.
+
+Helps product managers, ops people, revenue analysts, and growth team members build and maintain internal tools with confidence. Speaks your language, catches real problems, offers to do the work.
 
 ## Installation
 
-```bash
-# From marketplace (team-wide)
-/plugin marketplace add mosaic-wellness/claude-plugins
-/plugin install mosaic-tech
-
-# Local development
-claude plugins add /path/to/claude-plugins/plugins/mosaic-tech
-```
-
-## Usage
+### From Marketplace
 
 ```bash
-/mosaic-tech              # Interactive menu
-/mosaic-tech review       # Full project setup review
-/mosaic-tech debug        # Troubleshoot broken setup
-/mosaic-tech security     # Security audit
-/mosaic-tech stack        # Architecture/model guidance
+claude install mosaic-tech
 ```
 
-## Components
+### Local Development
 
-### Agents
+```bash
+git clone <repo-url>
+cd claude-plugins/plugins/mosaic-tech
+claude plugin link .
+```
 
-| Agent | Purpose |
-|---|---|
-| `setup-reviewer` | Scans project for config issues, outdated SDKs, missing best practices |
-| `debugger` | Troubleshoots API errors, connection failures, runtime issues |
-| `security-auditor` | Finds leaked keys, prompt injection risks, unsafe patterns |
-| `stack-advisor` | Recommends architecture, model, SDK for your use case |
+## Commands
 
-### Skills (auto-loaded knowledge)
+| What you want to do | Command |
+|---------------------|---------|
+| Check before sharing | `/mosaic-tech doctor` |
+| Check my tech choices | `/mosaic-tech review-stack` |
+| Review how this is built | `/mosaic-tech review` |
+| Review the user journey | `/mosaic-tech ux` |
+| Help me plan a feature | `/mosaic-tech brainstorm` |
+| Give me the real feedback | `/mosaic-tech grillme` |
+| Write it down for me | `/mosaic-tech document [prd\|spec\|adr\|update\|refresh]` |
+| Help me fix a bug | `/mosaic-tech debug` |
+| See how I'm using Claude | `/mosaic-tech 10x [all]` |
+| What plugins should I use? | `/mosaic-tech recommendations` |
+| Show me everything | `/mosaic-tech help` |
 
-| Skill | Content |
-|---|---|
-| `ai-app-essentials` | Model IDs, SDK setup, API parameters, common gotchas |
-| `security-checklist` | API key management, prompt injection, PII handling |
+Just run `/mosaic-tech` with no arguments to see the interactive menu.
 
-### Hooks
+## What's Inside
 
-| Hook | Trigger | Action |
-|---|---|---|
-| PreToolUse (Write/Edit) | Before writing files | Warns if hardcoded API keys detected |
-| PostToolUse (Bash) | After running commands | Warns if API keys appear in output |
+### 9 Agents
 
-### References
+| Agent | Purpose | Model |
+|-------|---------|-------|
+| doctor | Thorough health audit (80+ checks) | Sonnet |
+| reviewer | Intent-first architecture review | Sonnet |
+| stack-reviewer | Stack red flag detection | Sonnet |
+| ux-reviewer | UX audit for internal tools | Sonnet |
+| brainstormer | Idea → structured spec | Sonnet |
+| grillme | Holistic product + code review | Sonnet |
+| documenter | PRD / spec / ADR generator | Sonnet |
+| debugger | Structured debugging workflow | Sonnet |
+| coach | Weekly coaching report | Opus |
 
-| Document | Content |
-|---|---|
-| `claude-api-reference.md` | Claude API patterns, streaming, tool use, caching |
-| `agent-sdk-reference.md` | Agent SDK setup, patterns, architecture |
-| `mcp-dev-reference.md` | MCP server development, transport types, testing |
-| `testing-ai-apps.md` | Unit/integration/eval testing strategies |
-| `cost-optimization.md` | Model routing, caching, batch API, token management |
-| `prompt-engineering.md` | System prompts, few-shot, structured output |
+### 4 Skills
 
-## What It Checks (Setup Review)
+| Skill | Purpose |
+|-------|---------|
+| conventions | Approved stack, project structure, security, deployment, tone |
+| ai-app-conventions | Model selection, cost management, AI safety, MCP |
+| ux-heuristics | UX patterns for internal tools |
+| doc-templates | PRD, tech spec, ADR templates |
 
-- SDK versions (current vs deprecated)
-- API key management (.env, .gitignore)
-- Error handling and retry logic
-- Model configuration (IDs, max_tokens, temperature)
-- MCP server setup (transport, auth, .mcp.json)
-- Streaming and performance patterns
-- Project structure and testing
-- Agent SDK configuration (if applicable)
+### 2 Hooks
 
-## Safety
+- **PreToolUse (Write/Edit):** Blocks hardcoded API keys
+- **PostToolUse (Bash):** Warns on leaked keys in output
 
-- **Never prints actual API keys** — always redacted in output
-- **Hooks catch accidental key commits** — warns before writing files with keys
-- **Git history scanning** — checks for previously committed secrets
-- **No destructive actions** — read-only analysis with recommendations
+## Approved Stack
+
+| Layer | Choice |
+|-------|--------|
+| Backend | Fastify (Node 20 LTS) |
+| Frontend | React + Vite |
+| Database | MySQL + Prisma |
+| Auth | Google OAuth |
+| Deployment | EC2 |
+| AI SDK | @anthropic-ai/sdk |
+
+## License
+
+MIT — see [LICENSE](LICENSE)
