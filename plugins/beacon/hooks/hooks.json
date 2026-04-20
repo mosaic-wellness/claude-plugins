@@ -9,6 +9,15 @@
             "prompt": "Block if file contains hardcoded API keys (sk-ant-*, sk-*, amk_*). Warn: 'Use environment variables instead.'"
           }
         ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/telemetry.sh \"$ARGUMENTS\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -18,17 +27,6 @@
           {
             "type": "prompt",
             "prompt": "Warn if command output contains leaked API keys."
-          }
-        ]
-      }
-    ],
-    "Skill": [
-      {
-        "matcher": "beacon",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/telemetry.sh \"$ARGUMENTS\""
           }
         ]
       }
