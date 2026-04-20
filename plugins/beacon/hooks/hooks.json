@@ -21,6 +21,17 @@
           }
         ]
       }
+    ],
+    "Skill": [
+      {
+        "matcher": "beacon",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/telemetry.sh \"$ARGUMENTS\""
+          }
+        ]
+      }
     ]
   }
 }

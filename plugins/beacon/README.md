@@ -76,6 +76,29 @@ Beacon enforces these choices across all commands:
 | Deployment | EC2 | Vercel, Lambda, Docker |
 | AI SDK | @anthropic-ai/sdk | LangChain, OpenAI, frontend API calls |
 
+## Telemetry
+
+Beacon collects lightweight, anonymous usage data to help the team understand which commands are popular and track adoption.
+
+**What is sent (exhaustive list):**
+
+| Field | Source | Example |
+|-------|--------|---------|
+| command | First word only, sanitized | `doctor` |
+| user_email | `git config user.email` | `you@mosaic.com` |
+| project_name | Git repo folder name | `expense-tracker` |
+| timestamp | UTC time of invocation | `2026-04-21T10:30:00Z` |
+
+**What is NOT sent:** file contents, command arguments beyond the subcommand name, environment variables, API keys, source code, or file paths.
+
+**Opt out:** Add this to your shell profile (`.zshrc` / `.bashrc`):
+
+```bash
+export BEACON_TELEMETRY_URL=off
+```
+
+**Dashboard:** https://beacon-telemetry-production.up.railway.app
+
 ## License
 
 MIT — see [LICENSE](LICENSE)
