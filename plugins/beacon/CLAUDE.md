@@ -1,4 +1,4 @@
-# mosaic-tech — Plugin Rules
+# beacon — Plugin Rules
 
 ## What This Is
 

@@ -1,8 +1,8 @@
-# Implementation Plan: mosaic-tech Plugin Redesign
+# Implementation Plan: beacon Plugin Redesign
 
 ## Context
 
-The mosaic-tech plugin is being repurposed from an AI-app development tool into a **single-stop technical co-pilot for non-engineering teams**. The SPEC.md and REQUIREMENTS.md define the full vision and testable acceptance criteria. This plan sequences the implementation into phases that build on each other, so each phase produces a usable increment.
+The beacon plugin is being repurposed from an AI-app development tool into a **single-stop technical co-pilot for non-engineering teams**. The SPEC.md and REQUIREMENTS.md define the full vision and testable acceptance criteria. This plan sequences the implementation into phases that build on each other, so each phase produces a usable increment.
 
 **Key constraint:** Each phase should be independently testable. Don't build agents that depend on skills/references that don't exist yet.
 
@@ -97,7 +97,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
 
 ### Steps:
 
-1. **Rewrite `commands/mosaic-tech.md`**
+1. **Rewrite `commands/beacon.md`**
    - New YAML frontmatter (keep same name, user-invocable: true)
    - Add all new subcommand aliases to routing table
    - Implement first-run detection (check if project has been scanned before)
@@ -112,9 +112,9 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Updated keywords
 
 ### Verify:
-- `/mosaic-tech` shows task-based menu
-- `/mosaic-tech help` shows all commands with task descriptions
-- `/mosaic-tech recommendations` shows plugin list
+- `/beacon` shows task-based menu
+- `/beacon help` shows all commands with task descriptions
+- `/beacon recommendations` shows plugin list
 - Routing to agents works (they won't exist yet, but verify the dispatch pattern)
 
 ---
@@ -135,8 +135,8 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
 2. **Delete `agents/stack-advisor.md`** (replaced)
 
 ### Verify:
-- `/mosaic-tech review-stack` on a project with Express → blocks with outcome language
-- `/mosaic-tech review-stack` on a compliant project → clean pass with positive observation
+- `/beacon review-stack` on a project with Express → blocks with outcome language
+- `/beacon review-stack` on a compliant project → clean pass with positive observation
 
 ---
 
@@ -161,7 +161,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
 3. **Delete `agents/security-auditor.md`** (folded into doctor)
 
 ### Verify:
-- `/mosaic-tech doctor` produces narrative output with billboard
+- `/beacon doctor` produces narrative output with billboard
 - Findings use outcome language, not jargon
 - Nice-work tier always populated
 - 3-option close appears
@@ -184,7 +184,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Reference guidance-quality-framework for purposeful-vs-nitpicky
 
 ### Verify:
-- `/mosaic-tech grillme` produces the right tone and structure
+- `/beacon grillme` produces the right tone and structure
 - Starts with genuine positives
 - Findings are in everyday metaphors, not jargon
 - Offers help at the end
@@ -205,7 +205,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Default 5-finding cap
 
 ### Verify:
-- `/mosaic-tech review` asks about intent before flagging
+- `/beacon review` asks about intent before flagging
 - No false positives on intentional architecture choices
 
 ---
@@ -225,7 +225,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Reference ux-heuristics skill
 
 ### Verify:
-- `/mosaic-tech ux` asks discovery questions first
+- `/beacon ux` asks discovery questions first
 - Findings include time estimates
 - No jargon in output
 
@@ -246,7 +246,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - If code exists: read project and offer 3 directions
 
 ### Verify:
-- `/mosaic-tech brainstorm` opens with thoughtful question (not a form)
+- `/beacon brainstorm` opens with thoughtful question (not a form)
 - Produces 1-page spec after ~8 turns
 - Offers handoff to document
 
@@ -272,9 +272,9 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Reference doc-templates skill
 
 ### Verify:
-- `/mosaic-tech document` asks task-oriented question
-- `/mosaic-tech document prd` asks questions before drafting
-- `/mosaic-tech document spec` drafts from code
+- `/beacon document` asks task-oriented question
+- `/beacon document prd` asks questions before drafting
+- `/beacon document spec` drafts from code
 - ADRs stored in `docs/decisions/NNN-*.md`
 
 ---
@@ -292,7 +292,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Documentation trail preservation
 
 ### Verify:
-- `/mosaic-tech debug` classifies error type in early value
+- `/beacon debug` classifies error type in early value
 - Follows systematic workflow
 - Produces documented trail
 
@@ -315,7 +315,7 @@ The mosaic-tech plugin is being repurposed from an AI-app development tool into 
    - Privacy disclosure in pre-run prompt
 
 ### Verify:
-- `/mosaic-tech 10x` shows session count, asks for consent
+- `/beacon 10x` shows session count, asks for consent
 - After consent, generates HTML file
 - HTML opens in browser
 - Report sections match spec

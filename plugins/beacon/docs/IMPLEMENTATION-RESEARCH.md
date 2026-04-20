@@ -1,4 +1,4 @@
-# Implementation Research: mosaic-tech Plugin Redesign
+# Implementation Research: beacon Plugin Redesign
 
 **Generated:** 2026-04-21  
 **Source:** 6 Opus research agents analyzing SPEC.md, REQUIREMENTS.md, existing codebase, and guidance framework  
@@ -317,9 +317,9 @@ project/docs/
 
 ### 1.3 REFERENCE: guidance-quality-framework.md
 
-**Action:** Move from `plugins/code-review/references/` to `plugins/mosaic-tech/references/`
+**Action:** Move from `plugins/code-review/references/` to `plugins/beacon/references/`
 
-**Additions needed for mosaic-tech context:**
+**Additions needed for beacon context:**
 
 Add items 21-25 to "What to Never Do":
 - 21: Don't "ask them to think about something" — give direction or fix it
@@ -445,12 +445,12 @@ Compact rules file:
 
 ```yaml
 ---
-name: mosaic-tech
+name: beacon
 description: >
   Technical co-pilot for non-engineering teams — health checks, stack review,
   UX audits, brainstorming, documentation, debugging, and weekly coaching.
-  Examples: "/mosaic-tech" (what can I help with?), "/mosaic-tech doctor" (check before sharing),
-  "/mosaic-tech brainstorm" (help me plan), "/mosaic-tech 10x" (weekly coaching report).
+  Examples: "/beacon" (what can I help with?), "/beacon doctor" (check before sharing),
+  "/beacon brainstorm" (help me plan), "/beacon 10x" (weekly coaching report).
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion
@@ -478,7 +478,7 @@ argument-hint: "[doctor | review | review-stack | ux | brainstorm | grillme | do
 
 ### First-Run Detection
 
-Check for prior mosaic-tech artifacts (docs/ folder, report files). If none → first-run greeting.
+Check for prior beacon artifacts (docs/ folder, report files). If none → first-run greeting.
 
 **First-run text:**
 ```
@@ -993,7 +993,7 @@ This command analyzes your Claude Code sessions to find where you can
 get better results. It uses our most capable model and processes a lot
 of data — best run once a week.
 
-  Scope: [project name] (use '/mosaic-tech 10x all' for everything)
+  Scope: [project name] (use '/beacon 10x all' for everything)
   Sessions found: [N] in this project (last 7 days)
 
   Your session data is processed the same way as any file you open in
@@ -1043,7 +1043,7 @@ Self-contained HTML (inline CSS, no deps). Warm design: purple/indigo gradients,
 7. **Stats (END — celebration)** — sessions, messages, files created, fun metric + celebratory line
 
 Copy button: `navigator.clipboard.writeText()` with "Copied!" feedback.
-Open: `open mosaic-tech-coaching-report.html` (macOS).
+Open: `open beacon-coaching-report.html` (macOS).
 
 ### Privacy
 
@@ -1075,4 +1075,4 @@ Glob across ALL `~/.claude/projects/*/` directories. Report includes project bre
 
 ---
 
-*This research document contains enough detail to write every file in the mosaic-tech plugin redesign. Each section provides exact detection patterns, output formats, tone rules, and behavioral specifications.*
+*This research document contains enough detail to write every file in the beacon plugin redesign. Each section provides exact detection patterns, output formats, tone rules, and behavioral specifications.*

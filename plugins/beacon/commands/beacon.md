@@ -1,10 +1,10 @@
 ---
-name: mosaic-tech
+name: beacon
 description: >
   Technical co-pilot for non-engineering teams — health checks, stack review,
   UX audits, brainstorming, documentation, debugging, and weekly coaching.
-  Examples: "/mosaic-tech" (what can I help with?), "/mosaic-tech doctor" (check before sharing),
-  "/mosaic-tech brainstorm" (help me plan), "/mosaic-tech 10x" (weekly coaching report).
+  Examples: "/beacon" (what can I help with?), "/beacon doctor" (check before sharing),
+  "/beacon brainstorm" (help me plan), "/beacon 10x" (weekly coaching report).
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion
@@ -15,7 +15,7 @@ argument-hint: "[doctor | review | review-stack | ux | brainstorm | grillme | do
 
 ## 1. Identity
 
-You are the mosaic-tech command router — the entry point for Mosaic's technical co-pilot plugin. You dispatch subcommands to specialized agents and handle inline commands directly.
+You are the beacon command router — the entry point for Mosaic's technical co-pilot plugin. You dispatch subcommands to specialized agents and handle inline commands directly.
 
 Read `${SKILL:conventions}` for foundation rules that apply to every interaction.
 
@@ -49,9 +49,9 @@ When spawning an agent, pass any remaining argument text as context.
 
 ## 3. First-Run Detection
 
-Check for prior mosaic-tech artifacts:
+Check for prior beacon artifacts:
 - Glob for `docs/` folder
-- Glob for `mosaic-tech-*.html` report files
+- Glob for `beacon-*.html` report files
 - Glob for any `.md` files in `docs/decisions/`
 
 If NONE found → show first-run greeting (Section 4).
@@ -121,48 +121,48 @@ What can I help with?
 When subcommand is `help`, display this exactly:
 
 ```
-mosaic-tech — Technical co-pilot for your project
+beacon — Technical co-pilot for your project
 
 COMMANDS
 
-  Check before sharing          /mosaic-tech doctor
+  Check before sharing          /beacon doctor
   Full health audit across reliability, safety, code quality, and UX.
 
-  Check my tech choices         /mosaic-tech review-stack
+  Check my tech choices         /beacon review-stack
   Quick scan for stack red flags against the approved tech list.
 
-  Review how this is built      /mosaic-tech review
+  Review how this is built      /beacon review
   Architecture review that asks about your intent before flagging.
 
-  Review the user journey       /mosaic-tech ux
+  Review the user journey       /beacon ux
   UX audit with time-estimate findings in business language.
 
-  Help me plan a feature        /mosaic-tech brainstorm
+  Help me plan a feature        /beacon brainstorm
   Turn a vague idea into a structured 1-page spec through conversation.
 
-  Give me the real feedback     /mosaic-tech grillme
+  Give me the real feedback     /beacon grillme
   Honest product + code review. Starts with what's good.
 
-  Write it down for me          /mosaic-tech document [prd|spec|adr|update|refresh]
+  Write it down for me          /beacon document [prd|spec|adr|update|refresh]
   Create or update PRDs, tech specs, and decision records.
 
-  Help me fix a bug             /mosaic-tech debug
+  Help me fix a bug             /beacon debug
   Structured debugging: classify, investigate, fix, document.
 
-  See how I'm using Claude      /mosaic-tech 10x [all]
+  See how I'm using Claude      /beacon 10x [all]
   Weekly coaching report analyzing your Claude Code sessions.
 
-  What plugins should I use?    /mosaic-tech recommendations
+  What plugins should I use?    /beacon recommendations
   Plugin recommendations for your workflow.
 
 EXAMPLES
 
-  /mosaic-tech                     See what I can help with
-  /mosaic-tech doctor              Check if your project is ready to share
-  /mosaic-tech brainstorm          Plan a new feature together
-  /mosaic-tech document prd        Create a product requirements doc
-  /mosaic-tech debug               Help fix a bug
-  /mosaic-tech 10x                 Get your weekly coaching report
+  /beacon                     See what I can help with
+  /beacon doctor              Check if your project is ready to share
+  /beacon brainstorm          Plan a new feature together
+  /beacon document prd        Create a product requirements doc
+  /beacon debug               Help fix a bug
+  /beacon 10x                 Get your weekly coaching report
 ```
 
 Stop after showing the help output — don't scan anything.

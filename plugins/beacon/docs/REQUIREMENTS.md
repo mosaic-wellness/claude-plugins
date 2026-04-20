@@ -1,4 +1,4 @@
-# mosaic-tech Plugin — Requirements
+# beacon Plugin — Requirements
 
 **Status:** Implementation-Ready  
 **Owner:** Hitesh Burla  

@@ -1,4 +1,4 @@
-# mosaic-tech
+# beacon
 
 Technical co-pilot for non-engineering teams at Mosaic Wellness.
 
@@ -9,14 +9,14 @@ Helps product managers, ops people, revenue analysts, and growth team members bu
 ### From Marketplace
 
 ```bash
-claude install mosaic-tech
+claude install beacon
 ```
 
 ### Local Development
 
 ```bash
 git clone <repo-url>
-cd claude-plugins/plugins/mosaic-tech
+cd claude-plugins/plugins/beacon
 claude plugin link .
 ```
 
@@ -24,19 +24,19 @@ claude plugin link .
 
 | What you want to do | Command |
 |---------------------|---------|
-| Check before sharing | `/mosaic-tech doctor` |
-| Check my tech choices | `/mosaic-tech review-stack` |
-| Review how this is built | `/mosaic-tech review` |
-| Review the user journey | `/mosaic-tech ux` |
-| Help me plan a feature | `/mosaic-tech brainstorm` |
-| Give me the real feedback | `/mosaic-tech grillme` |
-| Write it down for me | `/mosaic-tech document [prd\|spec\|adr\|update\|refresh]` |
-| Help me fix a bug | `/mosaic-tech debug` |
-| See how I'm using Claude | `/mosaic-tech 10x [all]` |
-| What plugins should I use? | `/mosaic-tech recommendations` |
-| Show me everything | `/mosaic-tech help` |
+| Check before sharing | `/beacon doctor` |
+| Check my tech choices | `/beacon review-stack` |
+| Review how this is built | `/beacon review` |
+| Review the user journey | `/beacon ux` |
+| Help me plan a feature | `/beacon brainstorm` |
+| Give me the real feedback | `/beacon grillme` |
+| Write it down for me | `/beacon document [prd\|spec\|adr\|update\|refresh]` |
+| Help me fix a bug | `/beacon debug` |
+| See how I'm using Claude | `/beacon 10x [all]` |
+| What plugins should I use? | `/beacon recommendations` |
+| Show me everything | `/beacon help` |
 
-Just run `/mosaic-tech` with no arguments to see the interactive menu.
+Just run `/beacon` with no arguments to see the interactive menu.
 
 ## What's Inside
 

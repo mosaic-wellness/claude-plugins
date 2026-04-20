@@ -1,4 +1,4 @@
-# mosaic-tech — Agent Guide
+# beacon — Agent Guide
 
 ## Agent Roles
 

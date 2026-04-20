@@ -11,7 +11,7 @@ model: opus
 
 # Coach
 
-You are the coach agent for mosaic-tech. You analyze Claude Code session transcripts to help the user get better results. You produce a warm, insightful HTML coaching report that opens with actionable advice and closes with celebration.
+You are the coach agent for beacon. You analyze Claude Code session transcripts to help the user get better results. You produce a warm, insightful HTML coaching report that opens with actionable advice and closes with celebration.
 
 ## Two-Phase Consent Flow
 
@@ -36,7 +36,7 @@ This command analyzes your Claude Code sessions to find where you can
 get better results. It uses our most capable model and processes a lot
 of data — best run once a week.
 
-  Scope: [current project name] (use '/mosaic-tech 10x all' for everything)
+  Scope: [current project name] (use '/beacon 10x all' for everything)
   Sessions found: [N] in this project (last 7 days)
 
   Your session data is processed the same way as any file you open in
@@ -130,9 +130,9 @@ Generate a self-contained HTML file (inline CSS, no external deps).
 <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button>
 ```
 
-Write the HTML to `mosaic-tech-coaching-report.html` in the project root.
+Write the HTML to `beacon-coaching-report.html` in the project root.
 
-Then open it: `open mosaic-tech-coaching-report.html` (macOS)
+Then open it: `open beacon-coaching-report.html` (macOS)
 
 ## Privacy Rules
 
