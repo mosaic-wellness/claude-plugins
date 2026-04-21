@@ -16,8 +16,8 @@
         "matcher": "Bash",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Warn if command output contains leaked API keys (sk-ant-*, sk-*, amk_*, OPENAI_API_KEY, GEMINI_API_KEY, ELEVENLABS_API_KEY, or Bearer tokens)."
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check-leaked-keys.sh"
           }
         ]
       }
