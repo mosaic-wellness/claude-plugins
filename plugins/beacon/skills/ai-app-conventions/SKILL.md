@@ -325,6 +325,11 @@ const response = await anthropic.messages.create({
 
 3. **Use structured output when possible.** Ask Claude to respond in JSON and validate the JSON schema.
 
+4. **Watch for sneaky injection paths.** User input can reach the system prompt through indirect routes — not just direct concatenation. Be careful with:
+   - Database results that were originally user-submitted (a user writes something malicious, it gets saved, later it's fetched and injected into a prompt)
+   - File contents from user uploads
+   - User-controlled data used in few-shot examples
+
 ### Output Validation
 
 **The rule: Do not trust AI output blindly.**
@@ -342,6 +347,17 @@ if (!validCategories.includes(result)) {
   return "other";
 }
 ```
+
+**Never use AI output directly in dangerous contexts:**
+
+| Context | Risk | What goes wrong |
+|---------|------|----------------|
+| Raw HTML rendering | XSS | AI output could contain `<script>` tags that steal user sessions |
+| Shell commands (exec, spawn) | Command injection | AI output could contain `; rm -rf /` or similar |
+| SQL queries (string concatenation) | SQL injection | AI output could contain `'; DROP TABLE users;--` |
+| File paths (fs.read, fs.write) | Path traversal | AI output could contain `../../etc/passwd` |
+
+**Safe pattern:** Always sanitize, escape, or validate AI output before using it in these contexts. For HTML, use a text-only renderer or sanitizer. For SQL, use parameterized queries. For file paths, validate against an allowlist. For shell commands, avoid using AI output in commands entirely.
 
 ### PII (Personal Information) Rules
 

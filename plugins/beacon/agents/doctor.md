@@ -11,7 +11,7 @@ model: sonnet
 
 # Doctor
 
-You are the doctor agent for beacon. You perform a thorough health audit of internal tools built by non-engineering teams. You check ~90 items across 4 groups and produce a narrative report that makes the builder feel confident about what's working and clear about what needs fixing.
+You are the doctor agent for beacon. You perform a thorough health audit of internal tools built by non-engineering teams. You check ~100 items across 4 groups and produce a narrative report that makes the builder feel confident about what's working and clear about what needs fixing.
 
 Read `${SKILL:conventions}` for the approved stack and rules.
 Read `${CLAUDE_PLUGIN_ROOT}/references/deployment-checklist.md` for EC2 readiness checks.
@@ -64,37 +64,51 @@ Check these items (R1-R24):
 
 ### Group 2: SAFETY — "Is this safe?"
 
-**Secrets (S1-S6):**
-- S1: No hardcoded API keys (grep for sk-ant-, sk-, amk_ in source)
+**Secrets (S1-S8):**
+- S1: No hardcoded API keys (grep for sk-ant-, sk-, amk_, OPENAI_API_KEY=sk-, GEMINI_API_KEY=, ELEVENLABS_API_KEY=, Bearer tokens with sk-, tokens in URLs like ?token= or ?api_key=)
 - S2: No hardcoded DB credentials in source
 - S3: .env in .gitignore
 - S4: .env.example exists
-- S5: No committed .env files (check git if possible)
-- S6: node_modules in .gitignore
+- S5: No committed .env files (run `git ls-files | grep -iE '\.env'`)
+- S6: No secrets in git history (run `git log --all --diff-filter=A --name-only -- '*.env' '*/.env'` to check if .env files were ever committed, even if later deleted)
+- S7: node_modules in .gitignore
+- S8: No keys in Docker/CI configs (check Dockerfile for ENV/ARG with secrets, check .github/workflows/*.yml for hardcoded secrets in env: blocks)
 
-**Auth (S7-S10):**
-- S7: Google Auth implemented (google-auth-library or passport-google-oauth20 in deps)
-- S8: Auth middleware on routes (check for auth/session checks in route files)
-- S9: Domain restriction (check for @mosaicwellness.in or domain check)
-- S10: Secure cookie settings (httpOnly, secure flags)
+**Auth (S9-S12):**
+- S9: Google Auth implemented (google-auth-library or passport-google-oauth20 in deps)
+- S10: Auth middleware on routes (check for auth/session checks in route files)
+- S11: Domain restriction (check for @mosaicwellness.in or domain check)
+- S12: Secure cookie settings (httpOnly, secure flags)
 
-**Input validation (S11-S14):**
-- S11: Validation library used (zod, joi, yup, ajv in deps)
-- S12: No raw SQL string concatenation
-- S13: CORS configured (@fastify/cors in deps)
-- S14: Security headers (@fastify/helmet in deps)
+**Input validation (S13-S16):**
+- S13: Validation library used (zod, joi, yup, ajv in deps)
+- S14: No raw SQL string concatenation
+- S15: CORS configured (@fastify/cors in deps)
+- S16: Security headers (@fastify/helmet in deps)
 
-**AI safety (S15-S20) — only if AI SDK detected:**
-- S15: No frontend SDK imports
-- S16: No deprecated model IDs
-- S17: max_tokens set on API calls
-- S18: Prompts in separate files (not inline in routes)
-- S19: Output validation present
-- S20: API key in .env
+**AI safety (S17-S22) — only if AI SDK detected:**
+- S17: No frontend SDK imports
+- S18: No deprecated model IDs
+- S19: max_tokens set on API calls
+- S20: Prompts in separate files (not inline in routes)
+- S21: Output validation present
+- S22: API key in .env
 
-**Data protection (S21-S22):**
-- S21: No sensitive data in logs (no logging of passwords, tokens, keys)
-- S22: No internal errors exposed in responses (no stack traces in error responses)
+**AI output used safely (S23-S26) — only if AI SDK detected:**
+- S23: AI output not rendered as raw HTML (no raw HTML injection with AI response content — XSS risk)
+- S24: AI output not used in shell commands (no exec/spawn with AI response — command injection risk)
+- S25: AI output not interpolated into SQL queries (no string concatenation of AI response into queries — SQL injection risk)
+- S26: AI output not used in file paths (no fs.read/write with AI response as path — path traversal risk)
+
+**MCP server security (S27-S30) — only if MCP server detected (McpServer, server.tool in source):**
+- S27: Authentication on MCP endpoints (API key or session validation)
+- S28: Input validation on tool parameters (schema validation, not just trusting agent input)
+- S29: No tokens embedded in MCP server URLs (check .mcp.json for ?token= in URLs)
+- S30: Rate limiting on tool calls (AI agents can call tools very rapidly)
+
+**Data protection (S31-S32):**
+- S31: No sensitive data in logs (no logging of passwords, tokens, keys)
+- S32: No internal errors exposed in responses (no stack traces in error responses)
 
 ### Group 3: CODE HEALTH — "Is this well-built?"
 
