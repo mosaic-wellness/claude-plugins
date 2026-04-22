@@ -64,45 +64,55 @@ IMMEDIATELY call the `AskUserQuestion` tool with this exact structure:
     "multiSelect": false,
     "options": [
       {
-        "label": "Is this ready to share?",
-        "description": "Find what breaks before someone else does — full health audit"
+        "label": "Security audit",
+        "description": "Check for exposed keys, missing auth, and safety holes before anyone else finds them"
       },
       {
-        "label": "I have an idea",
-        "description": "Turn a rough idea into a clear 1-page spec through conversation"
+        "label": "Brainstorm",
+        "description": "Turn a rough idea into a clear 1-page spec — I'll ask the right questions"
       },
       {
-        "label": "Give it to me straight",
-        "description": "Honest product + code review — good stuff first, then what your VP would notice"
+        "label": "Grill me",
+        "description": "Honest product + code review — the good, the bad, and what your VP would notice"
       },
       {
-        "label": "Something's broken",
-        "description": "Structured debugging that classifies, investigates, and fixes the root cause"
+        "label": "Quick coaching (5x)",
+        "description": "Fast scan of how you're using Claude — finds quick wins without burning tokens"
+      },
+      {
+        "label": "Deep coaching (10x)",
+        "description": "Full session analysis with Opus — superpowers, time sinks, and a coaching report"
+      },
+      {
+        "label": "Something else",
+        "description": "Debug, UX audit, documentation, stack review, and more"
       }
     ]
   }]
 }
 ```
 
-If the user selects "Other" and types a different request, match it against the full routing table (Section 2).
+If the user selects "Other" or types a different request, match it against the full routing table (Section 2).
 
 **Routing for selected options:**
-- "Is this ready to share?" → spawn `doctor` agent
-- "I have an idea" → spawn `brainstormer` agent
-- "Give it to me straight" → spawn `grillme` agent
-- "Something's broken" → spawn `debugger` agent
+- "Security audit" → spawn `doctor` agent
+- "Brainstorm" → spawn `brainstormer` agent
+- "Grill me" → spawn `grillme` agent
+- "Quick coaching (5x)" → spawn `coach-lite` agent
+- "Deep coaching (10x)" → spawn `coach` agent
+- "Something else" → show the full command list below
 
-**After handling the selected option**, if the user asks for more commands or says "show me everything", display the full command list:
+**Full command list (shown when "Something else" is selected, or when user asks for more):**
 
 ```
-More things I can do:
+Here's everything I can do:
 
+  Full health audit                 /mosaic-buddy doctor
   Are my tech choices solid?        /mosaic-buddy review-stack
   How does this hold up?            /mosaic-buddy review
   Would a user actually like this?  /mosaic-buddy ux
   Write it down for me              /mosaic-buddy document [prd|spec|adr|update|refresh]
-  Quick coaching scan                /mosaic-buddy 5x
-  Deep coaching analysis             /mosaic-buddy 10x
+  Something's broken                /mosaic-buddy debug
   What plugins should I use?        /mosaic-buddy recommendations
 ```
 

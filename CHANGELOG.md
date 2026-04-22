@@ -2,6 +2,10 @@
 
 All notable version changes to plugins in this repository.
 
+## [mosaic-buddy@3.0.2] - 2026-04-22
+- Bumped from 3.0.1 to 3.0.2 (patch)
+
+
 ## [mosaic-buddy@3.0.1] - 2026-04-22
 - Renamed from beacon to mosaic-buddy, rewrote README, fixed instant interactive menu
 
