@@ -77,11 +77,6 @@ Lightweight, anonymous usage tracking helps the team understand adoption. Here's
 
 **Nothing else.** No file contents, no source code, no API keys, no arguments beyond the command name.
 
-Opt out anytime:
-```bash
-export MOSAIC_BUDDY_TELEMETRY_URL=off
-```
-
 ---
 
 ## License
