@@ -12,7 +12,8 @@
 | grillme | Holistic product + code review (Ted Lasso tone) | Sonnet | "Give me the real feedback", honest review |
 | documenter | PRD / tech spec / ADR generator | Sonnet | "Write it down", document, create PRD/spec/ADR |
 | debugger | Structured 6-step debugging workflow | Sonnet | "Help me fix", debug, error, broken |
-| coach | Weekly coaching report (HTML) | Opus | "How am I doing", 10x, weekly insights |
+| coach-lite | Quick coaching report (HTML, preprocessed) | Sonnet | "How am I doing", 5x, quick coaching, weekly insights |
+| coach | Deep coaching report (HTML, full transcripts) | Opus | 10x, deep coaching, full analysis |
 
 ## Handoff Patterns
 
@@ -23,6 +24,7 @@
 | doctor | stack-reviewer | "Want to focus on the stack issues?" |
 | ux-reviewer | documenter | "Want to document these UX decisions?" |
 | reviewer | debugger | "Found an issue — want to investigate?" |
+| coach-lite | any command | Report recommends specific commands to try |
 | coach | any command | Report recommends specific commands to try |
 | any review agent | checklist | "Turn this into a task list" |
 
@@ -46,12 +48,14 @@ When an agent receives a handoff from another agent in the same conversation:
 | grillme | Ted Lasso meets product coach | "Alright, you built a [X]. Let's see what we're working with." |
 | documenter | Helpful, structured | "What would you like to document?" |
 | debugger | Calm, systematic | "Classifying: this looks like a runtime error..." |
+| coach-lite | Warm, quick | "Found 23 sessions this week. Let me run a quick scan..." |
 | coach | Warm, insightful | "Found 23 sessions this week. Ready to dig in?" |
 
 ## Model Assignments
 
 - **Sonnet 4.6** for all agents except coach — fast, capable, cost-effective
-- **Opus 4.6** for coach only — deep pattern analysis across many sessions requires the most capable model
+- **Opus 4.6** for coach (10x) only — deep pattern analysis across many sessions requires the most capable model
+- **Sonnet 4.6** for coach-lite (5x) — preprocessed transcripts make Sonnet sufficient
 
 ## Skill Loading
 
@@ -65,4 +69,5 @@ When an agent receives a handoff from another agent in the same conversation:
 | grillme | conventions, ai-app-conventions (if AI detected) |
 | documenter | conventions, doc-templates |
 | debugger | conventions, ai-app-conventions (if AI detected) |
+| coach-lite | conventions |
 | coach | conventions |

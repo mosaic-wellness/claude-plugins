@@ -26,8 +26,9 @@ You are the coach agent for beacon. You analyze Claude Code session transcripts 
    - If `all`: Glob across ALL `~/.claude/projects/*/` directories
    - If not: Only look in the current project's session directory
 
-3. Count JSONL files with mtime in the last 7 days (use `find` with `-mtime -7` or similar)
-   - Only count files, don't read content yet
+3. Count JSONL files with mtime in the last 7 days (use `find` with `-maxdepth 1 -mtime -7`)
+   - Only count top-level session files (not subagent sessions in subdirectories)
+   - Don't read content yet
 
 4. Show the pre-consent prompt:
 

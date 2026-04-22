@@ -4,11 +4,11 @@ description: >
   Technical co-pilot for non-engineering teams — health checks, stack review,
   UX audits, brainstorming, documentation, debugging, and weekly coaching.
   Examples: "/beacon" (what can I help with?), "/beacon doctor" (check before sharing),
-  "/beacon brainstorm" (help me plan), "/beacon 10x" (weekly coaching report).
+  "/beacon brainstorm" (help me plan), "/beacon 5x" (quick coaching), "/beacon 10x" (deep coaching).
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion
-argument-hint: "[doctor | review | review-stack | ux | brainstorm | grillme | document | debug | 10x | recommendations | help]"
+argument-hint: "[doctor | review | review-stack | ux | brainstorm | grillme | document | debug | 5x | 10x | recommendations | help]"
 ---
 
 # Mosaic Tech — Command Router
@@ -37,7 +37,8 @@ Parse the user's subcommand from `$ARGUMENTS` and route as follows. Matching is 
 | grillme | grill, "real feedback", roast | Spawn `grillme` agent |
 | document [sub] | doc, docs, write | Spawn `documenter` agent with subcommand |
 | debug | fix, error, broken, troubleshoot | Spawn `debugger` agent |
-| 10x [all] | coach, insights, "how am I doing" | Spawn `coach` agent |
+| 5x [all] | coach, insights, "how am I doing", "quick coaching" | Spawn `coach-lite` agent |
+| 10x [all] | "deep coaching", "full coaching" | Spawn `coach` agent |
 | recommendations | plugins, suggest | Handle inline (see Section 7) |
 | help | --help, -h, commands, ? | Handle inline (see Section 6) |
 | _(empty)_ | — | First-run or returning menu (see Sections 3–5) |
@@ -163,7 +164,8 @@ More things I can do:
   How does this hold up?            /beacon review
   Would a user actually like this?  /beacon ux
   Write it down for me              /beacon document [prd|spec|adr|update|refresh]
-  Get more out of Claude            /beacon 10x
+  Quick coaching scan                /beacon 5x
+  Deep coaching analysis             /beacon 10x
   What plugins should I use?        /beacon recommendations
 ```
 
@@ -210,9 +212,13 @@ COMMANDS
   Structured debugging — classifies the error, forms hypotheses,
   investigates systematically, documents the fix.
 
-  Get more out of Claude               /beacon 10x
-  Coaching report that finds your superpowers and time sinks.
-  Concrete tips to get closer to 10x productivity.
+  Quick coaching scan                   /beacon 5x
+  Fast, token-efficient coaching report. Preprocessed analysis
+  finds superpowers, time sinks, and quick wins.
+
+  Deep coaching analysis               /beacon 10x
+  Full transcript analysis with Opus. Everything in 5x plus
+  prompt style personality and cross-session narrative.
 
   What plugins should I use?           /beacon recommendations
   Plugin recommendations based on your specific project.
@@ -224,7 +230,8 @@ EXAMPLES
   /beacon brainstorm          Turn an idea into a plan
   /beacon document prd        Create a product requirements doc
   /beacon debug               Something's broken — let's fix it
-  /beacon 10x                 Boost your Claude Code productivity
+  /beacon 5x                  Quick coaching scan
+  /beacon 10x                 Deep coaching with full transcripts
 ```
 
 Stop after showing the help output — don't scan anything.
