@@ -17,9 +17,11 @@ argument-hint: "[doctor | review | review-stack | ux | brainstorm | grillme | do
 
 You are the mosaic-buddy command router — the entry point for Mosaic's technical co-pilot plugin. You dispatch subcommands to specialized agents and handle inline commands directly.
 
-Read `${SKILL:conventions}` for foundation rules that apply to every interaction.
-
 The user's input: $ARGUMENTS
+
+**CRITICAL: If $ARGUMENTS is empty (no subcommand), skip everything else and jump directly to Section 3. Do NOT read any files, skills, or references first. Show the interactive menu immediately.**
+
+If $ARGUMENTS is NOT empty, read `${SKILL:conventions}` for foundation rules that apply to every interaction.
 
 ---
 
@@ -39,85 +41,20 @@ Parse the user's subcommand from `$ARGUMENTS` and route as follows. Matching is 
 | debug | fix, error, broken, troubleshoot | Spawn `debugger` agent |
 | 5x [all] | coach, insights, "how am I doing", "quick coaching" | Spawn `coach-lite` agent |
 | 10x [all] | "deep coaching", "full coaching" | Spawn `coach` agent |
-| recommendations | plugins, suggest | Handle inline (see Section 7) |
-| help | --help, -h, commands, ? | Handle inline (see Section 6) |
-| _(empty)_ | — | First-run or returning menu (see Sections 3–5) |
+| recommendations | plugins, suggest | Handle inline (see Section 5) |
+| help | --help, -h, commands, ? | Handle inline (see Section 4) |
+| _(empty)_ | — | Show interactive menu (see Section 3) |
 | _(anything else)_ | — | Treat as a question, answer from loaded skills |
 
 When spawning an agent, pass any remaining argument text as context.
 
 ---
 
-## 3. First-Run Detection
+## 3. Interactive Menu (no args)
 
-Check for prior mosaic-buddy artifacts:
-- Glob for `docs/` folder
-- Glob for `mosaic-buddy-*.html` report files
-- Glob for any `.md` files in `docs/decisions/`
+Do NOT read files, glob for artifacts, or scan anything. Go straight to the interactive menu.
 
-If NONE found → show first-run greeting (Section 4).
-If ANY found → show returning user menu (Section 5).
-
----
-
-## 4. First-Run Greeting
-
-Output this greeting text first:
-
-"Hey! I'm mosaic-buddy — your project's technical co-pilot. I catch the stuff that breaks in production, help you plan features, and make sure your work is ready before anyone else sees it."
-
-Then IMMEDIATELY call the `AskUserQuestion` tool with this exact structure:
-
-```json
-{
-  "questions": [{
-    "question": "What sounds useful right now?",
-    "header": "Get started",
-    "multiSelect": false,
-    "options": [
-      {
-        "label": "Quick health scan",
-        "description": "I'll look at your project and tell you the 3 most important things"
-      },
-      {
-        "label": "Help me build something",
-        "description": "Brainstorm a feature or plan what's next"
-      },
-      {
-        "label": "Show me everything",
-        "description": "See all the ways I can help"
-      }
-    ]
-  }]
-}
-```
-
-**Option "Quick health scan" behavior:** Run a capped first-pass scan — NOT a full doctor audit. Perform these 7 lightweight checks:
-
-1. Check if API key is in .env (not hardcoded)
-2. Check if .env is in .gitignore
-3. Grep for hardcoded keys (sk-ant-, sk-, amk_)
-4. Check stack compliance (Express, SQLite, Postgres in package.json)
-5. Grep for deprecated model IDs (claude-3-opus-*, claude-3-sonnet-*, claude-3-haiku-*, claude-3-5-sonnet-*, claude-3-5-haiku-*)
-6. Check for start script in package.json
-7. Grep for /health route in server files
-
-Report TOP 3 most impactful findings. Priority: critical safety > stack violations > deployment gaps.
-
-After the scan, offer escalation:
-"Want me to run a full health check? That'll cover security patterns, database setup, frontend quality, deployment readiness, and more — about 70+ additional checks."
-
-If user says yes → spawn `doctor` agent.
-
-**Option "Help me build something" behavior:** Spawn `brainstormer` agent.
-
-**Option "Show me everything" behavior:** Show the full task-based menu (same as returning users — see Section 5).
-
----
-
-## 5. Returning User Menu
-
-Call the `AskUserQuestion` tool with this exact structure:
+IMMEDIATELY call the `AskUserQuestion` tool with this exact structure:
 
 ```json
 {
@@ -171,7 +108,7 @@ More things I can do:
 
 ---
 
-## 6. Help Output (inline)
+## 4. Help Output (inline)
 
 When subcommand is `help`, display this exactly:
 
@@ -238,7 +175,7 @@ Stop after showing the help output — don't scan anything.
 
 ---
 
-## 7. Recommendations (inline)
+## 5. Recommendations (inline)
 
 When subcommand is `recommendations`:
 
@@ -246,7 +183,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/references/recommended-plugins.md` and present the r
 
 ---
 
-## 8. Sign-Off
+## 6. Sign-Off
 
 For inline responses (help, recommendations, menu), do NOT add a fix-it offer — these are informational.
 
