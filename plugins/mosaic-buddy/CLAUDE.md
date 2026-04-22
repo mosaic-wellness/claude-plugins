@@ -1,4 +1,4 @@
-# beacon — Plugin Rules
+# mosaic-buddy — Plugin Rules
 
 ## What This Is
 

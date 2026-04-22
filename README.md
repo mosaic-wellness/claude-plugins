@@ -6,7 +6,7 @@ Claude Code plugins for Mosaic Wellness teams.
 
 | Plugin | What it does | Install |
 |--------|-------------|---------|
-| [beacon](./plugins/beacon/) | Technical co-pilot for non-engineering teams — health checks, reviews, brainstorming, docs, debugging, coaching | `/plugin install beacon` |
+| [mosaic-buddy](./plugins/mosaic-buddy/) | Technical co-pilot for non-engineering teams — health checks, reviews, brainstorming, docs, debugging, coaching | `/plugin install mosaic-buddy` |
 | [mosaic-admin](./plugins/mosaic-admin/) | Admin MCP plugin for managing page configs (PDPs, widget pages, experiments) via Zeus | `/plugin install mosaic-admin` |
 
 ## Quick Start
@@ -16,12 +16,12 @@ Claude Code plugins for Mosaic Wellness teams.
 /plugin marketplace add mosaic-wellness/claude-plugins
 
 # 2. Install a plugin
-/plugin install beacon
+/plugin install mosaic-buddy
 /plugin install mosaic-admin
 
 # 3. Use it
-/beacon              # interactive menu
-/beacon doctor       # health check your project
+/mosaic-buddy              # interactive menu
+/mosaic-buddy doctor       # health check your project
 /mosaic-admin        # manage page configs
 ```
 

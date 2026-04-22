@@ -12,10 +12,10 @@
       "source": "./plugins/mosaic-admin"
     },
     {
-      "name": "beacon",
+      "name": "mosaic-buddy",
       "description": "Technical co-pilot for non-engineering teams — health checks, stack review, UX audits, brainstorming, documentation, debugging, and weekly coaching.",
       "version": "2.0.0",
-      "source": "./plugins/beacon"
+      "source": "./plugins/mosaic-buddy"
     }
   ]
 }

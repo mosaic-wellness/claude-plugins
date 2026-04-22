@@ -1,8 +1,8 @@
-# Implementation Plan: beacon Plugin Redesign
+# Implementation Plan: mosaic-buddy Plugin Redesign
 
 ## Context
 
-The beacon plugin is being repurposed from an AI-app development tool into a **single-stop technical co-pilot for non-engineering teams**. The SPEC.md and REQUIREMENTS.md define the full vision and testable acceptance criteria. This plan sequences the implementation into phases that build on each other, so each phase produces a usable increment.
+The mosaic-buddy plugin is being repurposed from an AI-app development tool into a **single-stop technical co-pilot for non-engineering teams**. The SPEC.md and REQUIREMENTS.md define the full vision and testable acceptance criteria. This plan sequences the implementation into phases that build on each other, so each phase produces a usable increment.
 
 **Key constraint:** Each phase should be independently testable. Don't build agents that depend on skills/references that don't exist yet.
 
@@ -97,7 +97,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
 
 ### Steps:
 
-1. **Rewrite `commands/beacon.md`**
+1. **Rewrite `commands/mosaic-buddy.md`**
    - New YAML frontmatter (keep same name, user-invocable: true)
    - Add all new subcommand aliases to routing table
    - Implement first-run detection (check if project has been scanned before)
@@ -112,9 +112,9 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Updated keywords
 
 ### Verify:
-- `/beacon` shows task-based menu
-- `/beacon help` shows all commands with task descriptions
-- `/beacon recommendations` shows plugin list
+- `/mosaic-buddy` shows task-based menu
+- `/mosaic-buddy help` shows all commands with task descriptions
+- `/mosaic-buddy recommendations` shows plugin list
 - Routing to agents works (they won't exist yet, but verify the dispatch pattern)
 
 ---
@@ -135,8 +135,8 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
 2. **Delete `agents/stack-advisor.md`** (replaced)
 
 ### Verify:
-- `/beacon review-stack` on a project with Express → blocks with outcome language
-- `/beacon review-stack` on a compliant project → clean pass with positive observation
+- `/mosaic-buddy review-stack` on a project with Express → blocks with outcome language
+- `/mosaic-buddy review-stack` on a compliant project → clean pass with positive observation
 
 ---
 
@@ -161,7 +161,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
 3. **Delete `agents/security-auditor.md`** (folded into doctor)
 
 ### Verify:
-- `/beacon doctor` produces narrative output with billboard
+- `/mosaic-buddy doctor` produces narrative output with billboard
 - Findings use outcome language, not jargon
 - Nice-work tier always populated
 - 3-option close appears
@@ -184,7 +184,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Reference guidance-quality-framework for purposeful-vs-nitpicky
 
 ### Verify:
-- `/beacon grillme` produces the right tone and structure
+- `/mosaic-buddy grillme` produces the right tone and structure
 - Starts with genuine positives
 - Findings are in everyday metaphors, not jargon
 - Offers help at the end
@@ -205,7 +205,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Default 5-finding cap
 
 ### Verify:
-- `/beacon review` asks about intent before flagging
+- `/mosaic-buddy review` asks about intent before flagging
 - No false positives on intentional architecture choices
 
 ---
@@ -225,7 +225,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Reference ux-heuristics skill
 
 ### Verify:
-- `/beacon ux` asks discovery questions first
+- `/mosaic-buddy ux` asks discovery questions first
 - Findings include time estimates
 - No jargon in output
 
@@ -246,7 +246,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - If code exists: read project and offer 3 directions
 
 ### Verify:
-- `/beacon brainstorm` opens with thoughtful question (not a form)
+- `/mosaic-buddy brainstorm` opens with thoughtful question (not a form)
 - Produces 1-page spec after ~8 turns
 - Offers handoff to document
 
@@ -272,9 +272,9 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Reference doc-templates skill
 
 ### Verify:
-- `/beacon document` asks task-oriented question
-- `/beacon document prd` asks questions before drafting
-- `/beacon document spec` drafts from code
+- `/mosaic-buddy document` asks task-oriented question
+- `/mosaic-buddy document prd` asks questions before drafting
+- `/mosaic-buddy document spec` drafts from code
 - ADRs stored in `docs/decisions/NNN-*.md`
 
 ---
@@ -292,7 +292,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Documentation trail preservation
 
 ### Verify:
-- `/beacon debug` classifies error type in early value
+- `/mosaic-buddy debug` classifies error type in early value
 - Follows systematic workflow
 - Produces documented trail
 
@@ -315,7 +315,7 @@ The beacon plugin is being repurposed from an AI-app development tool into a **s
    - Privacy disclosure in pre-run prompt
 
 ### Verify:
-- `/beacon 10x` shows session count, asks for consent
+- `/mosaic-buddy 10x` shows session count, asks for consent
 - After consent, generates HTML file
 - HTML opens in browser
 - Report sections match spec

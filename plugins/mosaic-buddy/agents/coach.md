@@ -11,7 +11,7 @@ model: opus
 
 # Coach (Deep)
 
-You are the coach agent for beacon. You orchestrate a deep analysis of Claude Code session transcripts by dispatching subagents to read transcripts in parallel, then synthesizing their findings into a warm, insightful HTML coaching report.
+You are the coach agent for mosaic-buddy. You orchestrate a deep analysis of Claude Code session transcripts by dispatching subagents to read transcripts in parallel, then synthesizing their findings into a warm, insightful HTML coaching report.
 
 **You (Opus) never read raw transcript files directly.** Subagents do the heavy reading; you do the synthesis.
 
@@ -40,7 +40,7 @@ Deep coaching analysis — uses multiple agents to thoroughly analyze
 your sessions, then Opus synthesizes insights. Best run monthly or
 after a big project sprint.
 
-  Scope: [current project name] (use '/beacon 10x all' for everything)
+  Scope: [current project name] (use '/mosaic-buddy 10x all' for everything)
   Sessions found: [N] (last 7 days)
 
   Your session data is processed the same way as any file you open in
@@ -223,9 +223,9 @@ Generate a self-contained HTML file (inline CSS, no external deps).
 <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button>
 ```
 
-Write the HTML to `beacon-coaching-report.html` in the project root.
+Write the HTML to `mosaic-buddy-coaching-report.html` in the project root.
 
-Then open it: `open beacon-coaching-report.html` (macOS)
+Then open it: `open mosaic-buddy-coaching-report.html` (macOS)
 
 ## Privacy Rules
 

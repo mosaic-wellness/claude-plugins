@@ -1,4 +1,4 @@
-# beacon Plugin — Redesign Specification
+# mosaic-buddy Plugin — Redesign Specification
 
 **Status:** Draft — Awaiting Review  
 **Owner:** Hitesh Burla  
@@ -8,7 +8,7 @@
 
 ## Mission
 
-Make `beacon` the **single-stop technical co-pilot for non-engineering teams** at Mosaic Wellness. Product managers, ops people, revenue analysts, and growth folks build internal tools using Claude Code. They're smart and capable — but they're not infra-savvy. This plugin bridges that gap.
+Make `mosaic-buddy` the **single-stop technical co-pilot for non-engineering teams** at Mosaic Wellness. Product managers, ops people, revenue analysts, and growth folks build internal tools using Claude Code. They're smart and capable — but they're not infra-savvy. This plugin bridges that gap.
 
 The plugin should feel like having a senior technical advisor on the team who:
 - Speaks their language (no jargon without explanation)
@@ -71,7 +71,7 @@ Every agent in this plugin follows these:
 
 ## Commands
 
-### `/beacon` (no args) — First Run / Menu
+### `/mosaic-buddy` (no args) — First Run / Menu
 
 **First-time experience:**
 ```
@@ -93,13 +93,13 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 **Option 2 behavior:** Routes directly to `brainstorm`. The agent begins its conversational flow (reads project if code exists, then asks first thoughtful question).
 
-**Option 3 behavior:** Displays the full command menu with all available subcommands and one-line descriptions (same output as `/beacon help`).
+**Option 3 behavior:** Displays the full command menu with all available subcommands and one-line descriptions (same output as `/mosaic-buddy help`).
 
 **Returning users:** Full command menu.
 
 ---
 
-### `/beacon doctor` — Thorough Health Audit
+### `/mosaic-buddy doctor` — Thorough Health Audit
 
 **Model:** Sonnet  
 **Purpose:** Comprehensive project audit across 4 human-readable groups  
@@ -158,7 +158,7 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 ---
 
-### `/beacon review` — Deep Architecture Review
+### `/mosaic-buddy review` — Deep Architecture Review
 
 **Model:** Sonnet  
 **Purpose:** Checks architecture choices and intent. Asks "was this deliberate?" before flagging.
@@ -176,7 +176,7 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 ---
 
-### `/beacon debug` — Structured Debugging Workflow
+### `/mosaic-buddy debug` — Structured Debugging Workflow
 
 **Model:** Sonnet  
 **Purpose:** Gives AI agents a systematic debugging process so debugging becomes organized
@@ -193,7 +193,7 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 ---
 
-### `/beacon review-stack` — Stack Red Flag Detection
+### `/mosaic-buddy review-stack` — Stack Red Flag Detection
 
 **Model:** Sonnet  
 **Purpose:** Quick, decisive. Checks for **dependency and configuration red flags** against a defined blocklist/warnlist. This is NOT a full stack compliance audit (that's doctor's job) — it's a fast scan for known bad choices.
@@ -227,7 +227,7 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 ---
 
-### `/beacon ux` — UX Audit for Internal Tools
+### `/mosaic-buddy ux` — UX Audit for Internal Tools
 
 **Model:** Sonnet  
 **Purpose:** Traces user journey through the app. Finds usability issues non-tech users care about.
@@ -254,7 +254,7 @@ At the end of the first-pass, it offers: "Want me to run a full health check? Th
 
 ---
 
-### `/beacon brainstorm` — Idea Companion
+### `/mosaic-buddy brainstorm` — Idea Companion
 
 **Model:** Sonnet  
 **Purpose:** Turn a vague "I want to build X" into a structured 1-page spec. No tech jargon.
@@ -308,7 +308,7 @@ One paragraph. Stack, data sources, rough shape.
 
 ---
 
-### `/beacon grillme` — Witty Holistic Reviewer
+### `/mosaic-buddy grillme` — Witty Holistic Reviewer
 
 **Model:** Sonnet  
 **Purpose:** Reviews project from BOTH product and implementation perspectives. Finds gaps a skeptical teammate would find.
@@ -372,7 +372,7 @@ Implementation side (translated):
 
 ---
 
-### `/beacon document` — Documentation Generator
+### `/mosaic-buddy document` — Documentation Generator
 
 **Model:** Sonnet  
 **Purpose:** Creates/updates PRDs, tech specs, ADRs. Combines codebase reading with user conversation. Never fabricates business context.
@@ -454,7 +454,7 @@ project/
 
 ---
 
-### `/beacon recommendations` — Plugin Recommendations
+### `/mosaic-buddy recommendations` — Plugin Recommendations
 
 **Model:** None (inline, reads reference doc)  
 **Purpose:** Recommends Claude Code plugins that would help their workflow.
@@ -467,7 +467,7 @@ project/
 
 ---
 
-### `/beacon 10x` — Weekly Coaching Report
+### `/mosaic-buddy 10x` — Weekly Coaching Report
 
 **Model:** Opus (only command that uses Opus)  
 **Token weight:** Heavy  
@@ -479,8 +479,8 @@ project/
 **Session definition:** One JSONL file = one session. The agent counts files with `mtime` within the last 7 days.
 
 **Scope:**
-- **Default (`/beacon 10x`):** Only reads sessions from `~/.claude/projects/<current-project-path>/` — scoped to current working directory.
-- **All (`/beacon 10x all`):** Reads sessions from ALL project directories under `~/.claude/projects/`. This is opt-in (user explicitly types `all`). The pre-run confirmation shows the number of projects and sessions that will be analyzed.
+- **Default (`/mosaic-buddy 10x`):** Only reads sessions from `~/.claude/projects/<current-project-path>/` — scoped to current working directory.
+- **All (`/mosaic-buddy 10x all`):** Reads sessions from ALL project directories under `~/.claude/projects/`. This is opt-in (user explicitly types `all`). The pre-run confirmation shows the number of projects and sessions that will be analyzed.
 
 **Privacy model:** Session transcript content is sent to the Claude API for analysis — the same way any file you read in Claude Code is sent. No additional data sharing occurs beyond your normal Claude Code usage. If your sessions contain sensitive information, the same privacy guarantees that apply to all Claude Code interactions apply here.
 
@@ -498,7 +498,7 @@ This command analyzes your Claude Code sessions to find where you can
 get better results. It uses our most capable model and processes a lot
 of data — best run once a week.
 
-  Scope: [current project] (use '/beacon 10x all' for everything)
+  Scope: [current project] (use '/mosaic-buddy 10x all' for everything)
   Sessions found: 23 in this project (last 7 days)
 
   Continue? [y/n]
@@ -507,8 +507,8 @@ of data — best run once a week.
 **Time window:** Last 7 days only (keeps insights fresh and actionable, not historical)
 
 **Variants:**
-- `/beacon 10x` — Current project sessions from last 7 days
-- `/beacon 10x all` — All Claude Code sessions across all projects from last 7 days
+- `/mosaic-buddy 10x` — Current project sessions from last 7 days
+- `/mosaic-buddy 10x all` — All Claude Code sessions across all projects from last 7 days
 
 **Early value contract (Phase 2, after consent):** Once the user confirms, the agent outputs "Analyzing 23 sessions (~1,200 messages)..." as a progress signal before the heavy processing begins.
 
@@ -531,7 +531,7 @@ of data — best run once a week.
 
 ---
 
-### `/beacon help` — Command Reference
+### `/mosaic-buddy help` — Command Reference
 
 **Model:** None (inline)  
 **Output:** Clean list of all commands with one-line descriptions.
@@ -543,11 +543,11 @@ of data — best run once a week.
 ### Directory Structure
 
 ```
-plugins/beacon/
+plugins/mosaic-buddy/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── commands/
-│   └── beacon.md                     # Main router (all subcommands)
+│   └── mosaic-buddy.md                # Main router (all subcommands)
 ├── agents/
 │   ├── doctor.md                          # Thorough health audit
 │   ├── reviewer.md                        # Deep architecture review
@@ -628,7 +628,7 @@ review → debug           ("Found an issue — want to investigate?")
 ## Files to Create vs Rewrite
 
 ### Rewrite (existing files, complete overhaul):
-- `commands/beacon.md` — New routing, first-run detection, all subcommands
+- `commands/mosaic-buddy.md` — New routing, first-run detection, all subcommands
 - `hooks/hooks.json` — Simplified
 - `.claude-plugin/plugin.json` — Updated description
 - `README.md` — New overview
@@ -682,7 +682,7 @@ Every command must provide **evidence of understanding** within 5 seconds of inv
 
 | Command | Early value (within 5 seconds) |
 |---------|-------------------------------|
-| `/beacon` (no args) | First-run: greeting + 3-option menu. Returning: full command menu. Both are immediate (no scanning needed). |
+| `/mosaic-buddy` (no args) | First-run: greeting + 3-option menu. Returning: full command menu. Both are immediate (no scanning needed). |
 | `doctor` | "Looking at your [detected stack] project..." |
 | `review` | "I can see [X routes/pages/components]..." |
 | `debug` | "Classifying: this looks like a [error type]..." |

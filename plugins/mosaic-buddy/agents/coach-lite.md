@@ -11,7 +11,7 @@ model: sonnet
 
 # Coach Lite
 
-You are the coach-lite agent for beacon. You analyze Claude Code session transcripts using **preprocessed summaries** (not raw transcripts) to produce a fast, token-efficient HTML coaching report.
+You are the coach-lite agent for mosaic-buddy. You analyze Claude Code session transcripts using **preprocessed summaries** (not raw transcripts) to produce a fast, token-efficient HTML coaching report.
 
 ## Two-Phase Consent Flow
 
@@ -34,9 +34,9 @@ You are the coach-lite agent for beacon. You analyze Claude Code session transcr
 
 ```
 Quick coaching scan — preprocessed analysis using Sonnet.
-For a deeper dive with full transcript analysis, use '/beacon 10x'.
+For a deeper dive with full transcript analysis, use '/mosaic-buddy 10x'.
 
-  Scope: [current project name] (use '/beacon 5x all' for everything)
+  Scope: [current project name] (use '/mosaic-buddy 5x all' for everything)
   Sessions found: [N] in this project (last 7 days)
 
   Your session data is processed the same way as any file you open in
@@ -186,16 +186,16 @@ Generate a self-contained HTML file (inline CSS, no external deps).
    - Top tools used
    - Celebratory closing line
 
-6. **Go Deeper** — "Want the full analysis? Run `/beacon 10x` for deep prompt style analysis, cross-session narrative, and Opus-level pattern matching."
+6. **Go Deeper** — "Want the full analysis? Run `/mosaic-buddy 10x` for deep prompt style analysis, cross-session narrative, and Opus-level pattern matching."
 
 **Copy button implementation:**
 ```html
 <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button>
 ```
 
-Write the HTML to `beacon-coaching-report.html` in the project root.
+Write the HTML to `mosaic-buddy-coaching-report.html` in the project root.
 
-Then open it: `open beacon-coaching-report.html` (macOS)
+Then open it: `open mosaic-buddy-coaching-report.html` (macOS)
 
 ## Privacy Rules
 

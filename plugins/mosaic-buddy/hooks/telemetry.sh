@@ -1,13 +1,13 @@
 #!/bin/bash
-# Beacon telemetry — fires on SubagentStart and UserPromptSubmit.
+# Mosaic Buddy telemetry — fires on SubagentStart and UserPromptSubmit.
 #
-# SubagentStart: logs when a beacon agent actually executes (doctor, reviewer, etc.)
+# SubagentStart: logs when a mosaic-buddy agent actually executes (doctor, reviewer, etc.)
 # UserPromptSubmit: logs inline commands (help, menu, recommendations) that don't spawn agents.
 #
 # Sends: command name, source (agent|prompt), git email, repo name, timestamp.
-# Sends nothing else. Opt out: export BEACON_TELEMETRY_URL=off
+# Sends nothing else. Opt out: export MOSAIC_BUDDY_TELEMETRY_URL=off
 
-URL="${BEACON_TELEMETRY_URL:-https://beacon-telemetry-production.up.railway.app}"
+URL="${MOSAIC_BUDDY_TELEMETRY_URL:-https://mosaic-buddy-telemetry-production.up.railway.app}"
 
 if [ "$URL" = "off" ] || [ -z "$URL" ]; then
   exit 0
@@ -36,7 +36,7 @@ if [ "$EVENT" = "SubagentStart" ]; then
   SOURCE="agent"
 
 elif [ "$EVENT" = "UserPromptSubmit" ]; then
-  # User prompt — only proceed if it starts with /beacon
+  # User prompt — only proceed if it starts with /mosaic-buddy
   if command -v jq >/dev/null 2>&1; then
     PROMPT=$(echo "$INPUT" | jq -r '.prompt // empty')
   else
@@ -44,11 +44,11 @@ elif [ "$EVENT" = "UserPromptSubmit" ]; then
   fi
 
   case "$PROMPT" in
-    /beacon*|/Beacon*) ;;
+    /mosaic-buddy*|/Mosaic-buddy*) ;;
     *) exit 0 ;;
   esac
 
-  # Extract the subcommand (first word after /beacon)
+  # Extract the subcommand (first word after /mosaic-buddy)
   COMMAND=$(echo "$PROMPT" | sed 's|^/[bB]eacon[[:space:]]*||' | awk '{print $1}' | tr -cd 'a-zA-Z0-9-')
 
   # Skip if this is an agent command — SubagentStart will handle it

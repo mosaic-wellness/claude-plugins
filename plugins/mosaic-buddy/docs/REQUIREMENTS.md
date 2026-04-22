@@ -1,4 +1,4 @@
-# beacon Plugin — Requirements
+# mosaic-buddy Plugin — Requirements
 
 **Status:** Implementation-Ready  
 **Owner:** Hitesh Burla  

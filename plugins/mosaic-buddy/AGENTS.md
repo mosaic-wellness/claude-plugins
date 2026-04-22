@@ -1,4 +1,4 @@
-# beacon — Agent Guide
+# mosaic-buddy — Agent Guide
 
 ## Agent Roles
 

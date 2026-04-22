@@ -1,37 +1,37 @@
-# beacon
+# mosaic-buddy
 
 Your project's technical co-pilot.
 
-Built for product managers, ops people, revenue analysts, and growth teams at Mosaic Wellness who build internal tools with Claude Code. Beacon catches what breaks in production, helps you plan features, and makes sure your work is ready before anyone else sees it.
+Built for product managers, ops people, revenue analysts, and growth teams at Mosaic Wellness who build internal tools with Claude Code. Mosaic Buddy catches what breaks in production, helps you plan features, and makes sure your work is ready before anyone else sees it.
 
 ## Installation
 
 ```bash
 # From the Mosaic marketplace
-/plugin install beacon
+/plugin install mosaic-buddy
 
 # Or link locally for development
 git clone git@github.com:mosaic-wellness/claude-plugins.git
-cd claude-plugins/plugins/beacon
+cd claude-plugins/plugins/mosaic-buddy
 claude plugin link .
 ```
 
 ## Commands
 
-Just run `/beacon` to see the interactive menu — or jump straight to what you need:
+Just run `/mosaic-buddy` to see the interactive menu — or jump straight to what you need:
 
 | What you want to do | Command |
 |---------------------|---------|
-| Is this ready to share? | `/beacon doctor` |
-| Are my tech choices solid? | `/beacon review-stack` |
-| How does this hold up? | `/beacon review` |
-| Would a user actually like this? | `/beacon ux` |
-| I have an idea | `/beacon brainstorm` |
-| Give it to me straight | `/beacon grillme` |
-| Write it down for me | `/beacon document [prd\|spec\|adr\|update\|refresh]` |
-| Something's broken | `/beacon debug` |
-| Get more out of Claude | `/beacon 10x` |
-| What plugins should I use? | `/beacon recommendations` |
+| Is this ready to share? | `/mosaic-buddy doctor` |
+| Are my tech choices solid? | `/mosaic-buddy review-stack` |
+| How does this hold up? | `/mosaic-buddy review` |
+| Would a user actually like this? | `/mosaic-buddy ux` |
+| I have an idea | `/mosaic-buddy brainstorm` |
+| Give it to me straight | `/mosaic-buddy grillme` |
+| Write it down for me | `/mosaic-buddy document [prd\|spec\|adr\|update\|refresh]` |
+| Something's broken | `/mosaic-buddy debug` |
+| Get more out of Claude | `/mosaic-buddy 10x` |
+| What plugins should I use? | `/mosaic-buddy recommendations` |
 
 ## What's Inside
 
@@ -65,7 +65,7 @@ Just run `/beacon` to see the interactive menu — or jump straight to what you 
 
 ## Approved Stack
 
-Beacon enforces these choices across all commands:
+Mosaic Buddy enforces these choices across all commands:
 
 | Layer | Choice | What's blocked |
 |-------|--------|---------------|
@@ -78,7 +78,7 @@ Beacon enforces these choices across all commands:
 
 ## Telemetry
 
-Beacon collects lightweight, anonymous usage data to help the team understand which commands are popular and track adoption.
+Mosaic Buddy collects lightweight, anonymous usage data to help the team understand which commands are popular and track adoption.
 
 **What is sent (exhaustive list):**
 
@@ -94,10 +94,10 @@ Beacon collects lightweight, anonymous usage data to help the team understand wh
 **Opt out:** Add this to your shell profile (`.zshrc` / `.bashrc`):
 
 ```bash
-export BEACON_TELEMETRY_URL=off
+export MOSAIC_BUDDY_TELEMETRY_URL=off
 ```
 
-**Dashboard:** https://beacon-telemetry-production.up.railway.app
+**Dashboard:** https://mosaic-buddy-telemetry-production.up.railway.app
 
 ## License
 
