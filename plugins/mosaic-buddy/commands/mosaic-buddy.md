@@ -76,16 +76,8 @@ IMMEDIATELY call the `AskUserQuestion` tool with this exact structure:
         "description": "Honest product + code review — the good, the bad, and what your VP would notice"
       },
       {
-        "label": "Quick coaching (5x)",
-        "description": "Fast scan of how you're using Claude — finds quick wins without burning tokens"
-      },
-      {
-        "label": "Deep coaching (10x)",
-        "description": "Full session analysis with Opus — superpowers, time sinks, and a coaching report"
-      },
-      {
         "label": "Something else",
-        "description": "Debug, UX audit, documentation, stack review, and more"
+        "description": "Coaching, debug, UX audit, documentation, stack review, and more"
       }
     ]
   }]
@@ -98,8 +90,6 @@ If the user selects "Other" or types a different request, match it against the f
 - "Security audit" → spawn `doctor` agent
 - "Brainstorm" → spawn `brainstormer` agent
 - "Grill me" → spawn `grillme` agent
-- "Quick coaching (5x)" → spawn `coach-lite` agent
-- "Deep coaching (10x)" → spawn `coach` agent
 - "Something else" → show the full command list below
 
 **Full command list (shown when "Something else" is selected, or when user asks for more):**
