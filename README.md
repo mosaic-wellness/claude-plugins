@@ -12,10 +12,14 @@ Claude Code plugins for Mosaic Wellness teams.
 ## Quick Start
 
 ```bash
-# Install the plugin (one-time)
-/install-plugin https://github.com/mosaic-wellness/claude-plugins
+# 1. Add the marketplace (one-time)
+/plugin marketplace add mosaic-wellness/claude-plugins
 
-# Use it
+# 2. Install a plugin
+/plugin install mosaic-buddy
+/plugin install mosaic-admin
+
+# 3. Use it
 /mosaic-buddy              # interactive menu
 /mosaic-buddy doctor       # health check your project
 /mosaic-admin              # manage page configs

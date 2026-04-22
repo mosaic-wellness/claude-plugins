@@ -7,7 +7,11 @@
 ## Get Started
 
 ```bash
-/install-plugin https://github.com/mosaic-wellness/claude-plugins
+# Add the marketplace (one-time)
+/plugin marketplace add mosaic-wellness/claude-plugins
+
+# Install the plugin
+/plugin install mosaic-buddy
 ```
 
 Then run `/mosaic-buddy` in any project. That's it.
