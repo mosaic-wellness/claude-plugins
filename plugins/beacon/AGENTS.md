@@ -13,7 +13,7 @@
 | documenter | PRD / tech spec / ADR generator | Sonnet | "Write it down", document, create PRD/spec/ADR |
 | debugger | Structured 6-step debugging workflow | Sonnet | "Help me fix", debug, error, broken |
 | coach-lite | Quick coaching report (HTML, preprocessed) | Sonnet | "How am I doing", 5x, quick coaching, weekly insights |
-| coach | Deep coaching report (HTML, full transcripts) | Opus | 10x, deep coaching, full analysis |
+| coach | Deep coaching report (HTML, subagent-parallel) | Opus + Sonnet subagents | 10x, deep coaching, full analysis |
 
 ## Handoff Patterns
 
@@ -54,7 +54,8 @@ When an agent receives a handoff from another agent in the same conversation:
 ## Model Assignments
 
 - **Sonnet 4.6** for all agents except coach — fast, capable, cost-effective
-- **Opus 4.6** for coach (10x) only — deep pattern analysis across many sessions requires the most capable model
+- **Opus 4.6** for coach (10x) orchestrator — dispatches Sonnet subagents for transcript reading, then synthesizes findings with Opus-level reasoning
+- **Sonnet 4.6** for coach (10x) subagents — each reads 2-3 sessions and produces structured findings
 - **Sonnet 4.6** for coach-lite (5x) — preprocessed transcripts make Sonnet sufficient
 
 ## Skill Loading
