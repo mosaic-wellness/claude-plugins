@@ -1,103 +1,94 @@
-# mosaic-buddy
+# Mosaic Buddy
 
-Your project's technical co-pilot.
+**Your project's technical co-pilot.** Built for the people at Mosaic who build internal tools with Claude Code — PMs, ops, revenue, growth. You don't need to be an engineer. You just need to type `/mosaic-buddy`.
 
-Built for product managers, ops people, revenue analysts, and growth teams at Mosaic Wellness who build internal tools with Claude Code. Mosaic Buddy catches what breaks in production, helps you plan features, and makes sure your work is ready before anyone else sees it.
+---
 
-## Installation
+## Get Started
 
 ```bash
-# From the Mosaic marketplace
 /plugin install mosaic-buddy
+```
 
-# Or link locally for development
+Then run `/mosaic-buddy` in any project. That's it.
+
+<details>
+<summary>Local development setup</summary>
+
+```bash
 git clone git@github.com:mosaic-wellness/claude-plugins.git
 cd claude-plugins/plugins/mosaic-buddy
 claude plugin link .
 ```
+</details>
 
-## Commands
+---
 
-Just run `/mosaic-buddy` to see the interactive menu — or jump straight to what you need:
+## What Can It Do?
 
-| What you want to do | Command |
-|---------------------|---------|
-| Is this ready to share? | `/mosaic-buddy doctor` |
-| Are my tech choices solid? | `/mosaic-buddy review-stack` |
-| How does this hold up? | `/mosaic-buddy review` |
-| Would a user actually like this? | `/mosaic-buddy ux` |
-| I have an idea | `/mosaic-buddy brainstorm` |
-| Give it to me straight | `/mosaic-buddy grillme` |
-| Write it down for me | `/mosaic-buddy document [prd\|spec\|adr\|update\|refresh]` |
-| Something's broken | `/mosaic-buddy debug` |
-| Get more out of Claude | `/mosaic-buddy 10x` |
-| What plugins should I use? | `/mosaic-buddy recommendations` |
+| You say... | It does... | Command |
+|---|---|---|
+| "Is this ready to share?" | Full health audit — 80+ checks across reliability, safety, code quality, and UX | `/mosaic-buddy doctor` |
+| "Are my tech choices solid?" | Quick scan for red flags — wrong DB, missing auth, deprecated models | `/mosaic-buddy review-stack` |
+| "How does this hold up?" | Architecture review that asks about your intent before flagging anything | `/mosaic-buddy review` |
+| "Would a user actually like this?" | UX audit with time estimates, not jargon | `/mosaic-buddy ux` |
+| "I have an idea" | Turns a rough idea into a 1-page spec through conversation | `/mosaic-buddy brainstorm` |
+| "Give it to me straight" | Honest product + code review — good stuff first, then what your VP would notice | `/mosaic-buddy grillme` |
+| "Write it down" | Creates PRDs, tech specs, and decision records | `/mosaic-buddy document` |
+| "Something's broken" | Structured debugging — classify, investigate, fix, document | `/mosaic-buddy debug` |
+| "How am I doing with Claude?" | Coaching report that finds your superpowers and time sinks | `/mosaic-buddy 5x` or `10x` |
 
-## What's Inside
+Or just run **`/mosaic-buddy`** with no arguments to see an interactive menu.
 
-### 9 Agents
+---
 
-| Agent | What it does | Model |
-|-------|-------------|-------|
-| doctor | Find what breaks before someone else does — 80+ checks across reliability, safety, code quality, and UX | Sonnet |
-| stack-reviewer | Quick red flag scan — wrong database, missing auth, deprecated models, exposed keys | Sonnet |
-| reviewer | Architecture review that asks about your intent before judging | Sonnet |
-| ux-reviewer | UX audit from your users' perspective, with time estimates | Sonnet |
-| brainstormer | Turn a rough idea into a clear 1-page spec through conversation | Sonnet |
-| grillme | Honest product + code review — starts with what's good, then what your VP would notice | Sonnet |
-| documenter | Create PRDs, tech specs, and decision records — updates and refreshes them too | Sonnet |
-| debugger | Structured debugging — classify, hypothesize, investigate, fix, document | Sonnet |
-| coach | Coaching report that finds your superpowers and time sinks with Claude Code | Opus |
+## Safety Built In
 
-### 4 Skills (auto-loaded knowledge)
+Two hooks run automatically on every project:
 
-| Skill | When it loads |
-|-------|--------------|
-| conventions | Every command — approved stack, project structure, security, deployment, tone |
-| ai-app-conventions | When AI SDK is detected — model selection, cost management, safety |
-| ux-heuristics | During UX reviews — Nielsen's 10 for internal tools, data table patterns |
-| doc-templates | During document commands — PRD, tech spec, ADR templates with mermaid |
+- **Before you write a file** — blocks if it contains a hardcoded API key
+- **After a bash command** — warns if the output leaked a key
 
-### 2 Safety Hooks
+You don't need to configure anything. They just work.
 
-- **On file write/edit:** Blocks if you're about to commit a hardcoded API key
-- **On bash output:** Warns if a command leaked a key in its output
+---
 
-## Approved Stack
+## Stack Guidance
 
-Mosaic Buddy enforces these choices across all commands:
+Every command knows our approved stack and will guide you toward it:
 
-| Layer | Choice | What's blocked |
-|-------|--------|---------------|
-| Backend | Fastify (Node 20 LTS) | Express, Hono, Nest.js |
-| Frontend | React + Vite | Next.js (unless SSR justified), Vue, Angular |
+| Layer | Use this | Not this |
+|---|---|---|
+| Backend | Fastify (Node 20) | Express, Hono, Nest.js |
+| Frontend | React + Vite | Next.js*, Vue, Angular |
 | Database | MySQL + Prisma | SQLite, PostgreSQL, MongoDB |
-| Auth | Google OAuth | Custom JWT as sole auth, passport-local |
-| Deployment | EC2 | Vercel, Lambda, Docker |
-| AI SDK | @anthropic-ai/sdk | LangChain, OpenAI, frontend API calls |
+| Auth | Google OAuth | Custom JWT, passport-local |
+| Deploy | EC2 | Vercel, Lambda, Docker |
+| AI | @anthropic-ai/sdk | LangChain, OpenAI |
 
-## Telemetry
+*\*Next.js is OK if you genuinely need SSR.*
 
-Mosaic Buddy collects lightweight, anonymous usage data to help the team understand which commands are popular and track adoption.
+---
 
-**What is sent (exhaustive list):**
+## Privacy & Telemetry
 
-| Field | Source | Example |
-|-------|--------|---------|
-| command | First word only, sanitized | `doctor` |
-| user_email | `git config user.email` | `you@mosaic.com` |
-| project_name | Git repo folder name | `expense-tracker` |
-| timestamp | UTC time of invocation | `2026-04-21T10:30:00Z` |
+Lightweight, anonymous usage tracking helps the team understand adoption. Here's exactly what's sent:
 
-**What is NOT sent:** file contents, command arguments beyond the subcommand name, environment variables, API keys, source code, or file paths.
+| Field | Example |
+|---|---|
+| Command name | `doctor` |
+| Git email | `you@mosaic.com` |
+| Repo folder name | `expense-tracker` |
+| Timestamp | `2026-04-21T10:30:00Z` |
 
-**Opt out:** Add this to your shell profile (`.zshrc` / `.bashrc`):
+**Nothing else.** No file contents, no source code, no API keys, no arguments beyond the command name.
 
+Opt out anytime:
 ```bash
 export MOSAIC_BUDDY_TELEMETRY_URL=off
 ```
 
-**Dashboard:** https://mosaic-buddy-telemetry-production.up.railway.app
+---
 
 ## License
 
