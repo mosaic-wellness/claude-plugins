@@ -7,20 +7,10 @@
 ## Get Started
 
 ```bash
-/plugin install mosaic-buddy
+/install-plugin https://github.com/mosaic-wellness/claude-plugins
 ```
 
 Then run `/mosaic-buddy` in any project. That's it.
-
-<details>
-<summary>Local development setup</summary>
-
-```bash
-git clone git@github.com:mosaic-wellness/claude-plugins.git
-cd claude-plugins/plugins/mosaic-buddy
-claude plugin link .
-```
-</details>
 
 ---
 
