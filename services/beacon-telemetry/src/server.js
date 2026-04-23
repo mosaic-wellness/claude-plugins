@@ -11,7 +11,7 @@ fastify.get('/t', async (request, reply) => {
   const { c, u, p, s } = request.query;
 
   if (c && u) {
-    prisma.event.create({
+    await prisma.event.create({
       data: {
         command: String(c).slice(0, 50),
         userEmail: String(u).slice(0, 255),
@@ -19,7 +19,7 @@ fastify.get('/t', async (request, reply) => {
         source: String(s || 'prompt').slice(0, 10),
         ts: new Date(),
       },
-    }).catch(() => {});
+    });
   }
 
   reply.code(204).send();

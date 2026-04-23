@@ -36,20 +36,23 @@ if [ "$EVENT" = "SubagentStart" ]; then
   SOURCE="agent"
 
 elif [ "$EVENT" = "UserPromptSubmit" ]; then
-  # User prompt — only proceed if it starts with /mosaic-buddy
+  # The plugin system expands /mosaic-buddy into the full command router prompt.
+  # The raw user input appears after "The user's input:" in the expanded prompt.
   if command -v jq >/dev/null 2>&1; then
     PROMPT=$(echo "$INPUT" | jq -r '.prompt // empty')
   else
     PROMPT=$(echo "$INPUT" | grep -o '"prompt":"[^"]*"' | sed 's/.*":"//;s/"$//')
   fi
 
+  # Only proceed if this is a mosaic-buddy command (expanded prompt contains the router header)
   case "$PROMPT" in
-    /mosaic-buddy*|/Mosaic-buddy*) ;;
+    *"Mosaic Tech — Command Router"*) ;;
     *) exit 0 ;;
   esac
 
-  # Extract the subcommand (first word after /mosaic-buddy), lowercase for matching
-  COMMAND=$(echo "$PROMPT" | sed 's|^/[mM]osaic-[bB]uddy[[:space:]]*||' | awk '{print tolower($1)}' | tr -cd 'a-z0-9-')
+  # Extract the user's input from the expanded prompt (appears after "The user's input:")
+  USER_INPUT=$(echo "$PROMPT" | grep -o "The user's input: .*" | sed "s/The user's input: //" | head -1)
+  COMMAND=$(echo "$USER_INPUT" | awk '{print tolower($1)}' | tr -cd 'a-z0-9-')
 
   # Skip if this is an agent command (including aliases) — SubagentStart will handle it
   case "$COMMAND" in
