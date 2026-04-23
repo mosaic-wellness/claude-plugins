@@ -2,6 +2,11 @@
 
 All notable version changes to plugins in this repository.
 
+## [mosaic-buddy@3.2.0] - 2026-04-23
+- Added `design-audit` skill — structured 1–5 scorecard across 8 domains with PDF + spider chart for Little Joys, Man Matters, and Be Bodywise. Auto-activates when the user shares a screenshot, URL, or Figma link asking for design feedback.
+- README updated with an Auto-Activating Skills section documenting design-audit triggers and output.
+
+
 ## [mosaic-admin@3.1.0] - 2026-04-22
 - Aligned version with mosaic-buddy (jumped from 1.0.0 to 3.1.0)
 
