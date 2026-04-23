@@ -2,8 +2,12 @@
 
 All notable version changes to plugins in this repository.
 
-## [mosaic-buddy@3.1.1] - 2026-04-23
-- Bumped from 3.1.0 to 3.1.1 (patch)
+## [mosaic-buddy@3.2.0] - 2026-04-23
+- Fix telemetry hook: strip /mosaic-buddy instead of old /beacon prefix
+- Fix telemetry hook: add all command aliases to skip list (prevents double-counting)
+- Fix telemetry hook: case-insensitive subcommand matching
+- Fix telemetry hook: remove curl background race condition
+- Clean up unused timestamp variable
 
 
 ## [mosaic-admin@3.1.0] - 2026-04-22
