@@ -1,36 +1,110 @@
 import Fastify from 'fastify';
 import { PrismaClient } from '@prisma/client';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const prisma = new PrismaClient();
 const fastify = Fastify({ logger: true });
 
+// --- Auth ---
+
+const HMAC_KEY = process.env.TELEMETRY_HMAC_KEY || 'mb-telem-v1-2026';
+const ADMIN_TOKEN = process.env.TELEMETRY_ADMIN_TOKEN || '';
+
+function verifyHmac(c, d, p, ts, sig) {
+  if (!sig || !ts) return false;
+  const age = Math.abs(Date.now() / 1000 - Number(ts));
+  if (age > 300) return false;
+  const expected = createHmac('sha256', HMAC_KEY)
+    .update(`${c}${d}${p}${ts}`)
+    .digest('hex');
+  try {
+    return timingSafeEqual(Buffer.from(sig, 'hex'), Buffer.from(expected, 'hex'));
+  } catch {
+    return false;
+  }
+}
+
+function requireAdmin(request, reply) {
+  if (!ADMIN_TOKEN) return true;
+  const token = request.query.token || request.headers['authorization']?.replace('Bearer ', '');
+  if (token === ADMIN_TOKEN) return true;
+  reply.code(401).send({ error: 'unauthorized' });
+  return false;
+}
+
+// --- Rate Limiting ---
+
+const rateMap = new Map();
+const RATE_WINDOW = 60_000;
+const RATE_MAX = 30;
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = rateMap.get(ip);
+  if (entry && entry.reset > now) {
+    if (entry.count >= RATE_MAX) return false;
+    entry.count++;
+    return true;
+  }
+  rateMap.set(ip, { count: 1, reset: now + RATE_WINDOW });
+  return true;
+}
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateMap) {
+    if (entry.reset <= now) rateMap.delete(ip);
+  }
+}, 300_000);
+
 // --- API Routes ---
 
-// Tracking endpoint — GET /t?c=doctor&u=email&p=project&s=agent
+// Tracking endpoint — GET /t?c=doctor&d=username&p=project&s=agent&ts=epoch&sig=hmac
 fastify.get('/t', async (request, reply) => {
-  const { c, u, p, s } = request.query;
+  const { c, d, p, s, ts, sig } = request.query;
 
-  if (c && u) {
-    await prisma.event.create({
-      data: {
-        command: String(c).slice(0, 50),
-        userEmail: String(u).slice(0, 255),
-        projectName: String(p || 'unknown').slice(0, 255),
-        source: String(s || 'prompt').slice(0, 10),
-        ts: new Date(),
-      },
-    });
+  if (!c || !d) {
+    reply.code(204).send();
+    return;
   }
+
+  if (!verifyHmac(c, d, p, ts, sig)) {
+    reply.code(403).send();
+    return;
+  }
+
+  if (!checkRateLimit(request.ip)) {
+    reply.code(429).send();
+    return;
+  }
+
+  await prisma.event.create({
+    data: {
+      command: String(c).slice(0, 50),
+      userEmail: String(d).slice(0, 255),
+      projectName: String(p || 'unknown').slice(0, 255),
+      source: String(s || 'prompt').slice(0, 10),
+      ts: new Date(),
+    },
+  });
 
   reply.code(204).send();
 });
 
 // Legacy POST endpoint
 fastify.post('/beacon/telemetry', async (request, reply) => {
-  const { command, user_email, project_name, ts } = request.body || {};
+  const { command, user_email, project_name, ts, sig, epoch } = request.body || {};
 
   if (!command || !user_email) {
     return reply.code(400).send({ ok: false, error: 'command and user_email required' });
+  }
+
+  if (!verifyHmac(command, user_email, project_name || 'unknown', epoch, sig)) {
+    return reply.code(403).send({ ok: false, error: 'invalid signature' });
+  }
+
+  if (!checkRateLimit(request.ip)) {
+    return reply.code(429).send({ ok: false, error: 'rate limited' });
   }
 
   await prisma.event.create({
@@ -45,7 +119,10 @@ fastify.post('/beacon/telemetry', async (request, reply) => {
   return { ok: true };
 });
 
-fastify.get('/beacon/telemetry/stats', async (request) => {
+// Stats — admin only
+fastify.get('/beacon/telemetry/stats', async (request, reply) => {
+  if (!requireAdmin(request, reply)) return;
+
   const days = parseInt(request.query.days || '30', 10);
   const since = new Date(Date.now() - days * 86400000);
 
@@ -85,9 +162,10 @@ fastify.get('/beacon/telemetry/stats', async (request) => {
 
 fastify.get('/health', async () => ({ status: 'ok' }));
 
-// --- Dashboard ---
+// --- Dashboard (admin only) ---
 
 fastify.get('/', async (request, reply) => {
+  if (!requireAdmin(request, reply)) return;
   reply.type('text/html');
   return reply.send(dashboardHtml);
 });
@@ -146,6 +224,8 @@ const COLORS = ['#6366f1','#8b5cf6','#a78bfa','#c4b5fd','#818cf8','#7c3aed','#5b
 const CMD_COLORS = { doctor:'#ef4444', review:'#f59e0b', brainstorm:'#22c55e', grillme:'#ec4899',
   ux:'#06b6d4', debug:'#f97316', document:'#8b5cf6', '10x':'#6366f1', 'review-stack':'#14b8a6', recommendations:'#64748b' };
 let currentDays = 30;
+
+const urlToken = new URLSearchParams(window.location.search).get('token') || '';
 
 function esc(str) {
   const d = document.createElement('div');
@@ -250,7 +330,7 @@ function recentTable(rows) {
     const tag = el('span', { className: 'tag', style: { background: color + '22', color: color } }, esc(r.command));
     const tr = el('tr', null, [
       el('td', null, tag),
-      el('td', null, esc(r.user_email.split('@')[0])),
+      el('td', null, esc(r.user_email)),
       el('td', null, esc(r.project_name)),
       el('td', null, timeAgo(new Date(r.ts))),
     ]);
@@ -271,7 +351,12 @@ async function load(days) {
   currentDays = days;
   buildControls();
 
-  const res = await fetch('/beacon/telemetry/stats?days=' + days);
+  const res = await fetch('/beacon/telemetry/stats?days=' + days + '&token=' + encodeURIComponent(urlToken));
+  if (!res.ok) {
+    const msg = el('div', { className: 'empty-msg' }, 'Unauthorized. Add ?token=YOUR_ADMIN_TOKEN to the URL.');
+    document.getElementById('stats').replaceChildren(msg);
+    return;
+  }
   const d = await res.json();
 
   const statsEl = document.getElementById('stats');
@@ -288,7 +373,7 @@ async function load(days) {
   gridEl.appendChild(card('Commands', cmdContent));
 
   const maxUser = Math.max(...d.byUser.map(r => r.count), 1);
-  const userContent = d.byUser.length ? el('div', null, d.byUser.map((r, i) => barRow(r.user_email.split('@')[0], r.count, maxUser, COLORS[i % COLORS.length]))) : emptyMsg();
+  const userContent = d.byUser.length ? el('div', null, d.byUser.map((r, i) => barRow(r.user_email, r.count, maxUser, COLORS[i % COLORS.length]))) : emptyMsg();
   gridEl.appendChild(card('Team Members', userContent));
 
   const maxProj = Math.max(...d.byProject.map(r => r.count), 1);

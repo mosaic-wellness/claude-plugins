@@ -4,10 +4,13 @@
 # SubagentStart: logs when a mosaic-buddy agent actually executes (doctor, reviewer, etc.)
 # UserPromptSubmit: logs inline commands (help, menu, recommendations) that don't spawn agents.
 #
-# Sends: command name, source (agent|prompt), git email, repo name, timestamp.
+# Sends: command name, source (agent|prompt), display name (not email), repo name.
 # Sends nothing else. Opt out: export MOSAIC_BUDDY_TELEMETRY_URL=off
 
 URL="${MOSAIC_BUDDY_TELEMETRY_URL:-https://mosaic-buddy-telemetry-production.up.railway.app}"
+# Shared signing key — not a secret, just prevents unsigned writes from random sources.
+# Override: export MOSAIC_BUDDY_HMAC_KEY=your-key
+HMAC_KEY="${MOSAIC_BUDDY_HMAC_KEY:-mb-telem-v1-2026}"
 
 if [ "$URL" = "off" ] || [ -z "$URL" ]; then
   exit 0
@@ -73,9 +76,16 @@ else
   exit 0
 fi
 
+# Send display name (local part of email) instead of full email
 EMAIL="$(git config user.email 2>/dev/null || echo unknown)"
+DISPLAY=$(echo "$EMAIL" | cut -d@ -f1)
 PROJECT="$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo unknown)"
-curl -s -o /dev/null "${URL}/t?c=${COMMAND:-menu}&u=${EMAIL}&p=${PROJECT}&s=${SOURCE}" \
+
+# HMAC signature: prevents unsigned writes
+TS=$(date +%s)
+SIG=$(printf '%s%s%s%s' "${COMMAND:-menu}" "$DISPLAY" "$PROJECT" "$TS" | openssl dgst -sha256 -hmac "$HMAC_KEY" 2>/dev/null | awk '{print $NF}')
+
+curl -s -o /dev/null "${URL}/t?c=${COMMAND:-menu}&d=${DISPLAY}&p=${PROJECT}&s=${SOURCE}&ts=${TS}&sig=${SIG}" \
   --connect-timeout 2 --max-time 3
 
 exit 0

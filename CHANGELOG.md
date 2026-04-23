@@ -2,6 +2,13 @@
 
 All notable version changes to plugins in this repository.
 
+## [mosaic-buddy@3.3.0] - 2026-04-23
+- Security: send display name instead of full email (no PII in transit or logs)
+- Security: HMAC-signed telemetry writes (rejects unsigned/forged requests)
+- Security: admin token required for stats endpoint and dashboard
+- Security: rate limiting on write endpoint (30 req/min per IP)
+
+
 ## [mosaic-buddy@3.2.1] - 2026-04-23
 - Fix telemetry: detect expanded prompt format (plugin system expands command before hook fires)
 - Fix telemetry: await database write in GET /t endpoint (was silently dropping events)
