@@ -2,6 +2,12 @@
 
 All notable version changes to plugins in this repository.
 
+## [mosaic-buddy@3.2.1] - 2026-04-23
+- Fix telemetry: detect expanded prompt format (plugin system expands command before hook fires)
+- Fix telemetry: await database write in GET /t endpoint (was silently dropping events)
+- Redeploy beacon-telemetry backend
+
+
 ## [mosaic-buddy@3.2.0] - 2026-04-23
 - Fix telemetry hook: strip /mosaic-buddy instead of old /beacon prefix
 - Fix telemetry hook: add all command aliases to skip list (prevents double-counting)
