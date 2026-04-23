@@ -48,12 +48,21 @@ elif [ "$EVENT" = "UserPromptSubmit" ]; then
     *) exit 0 ;;
   esac
 
-  # Extract the subcommand (first word after /mosaic-buddy)
-  COMMAND=$(echo "$PROMPT" | sed 's|^/[bB]eacon[[:space:]]*||' | awk '{print $1}' | tr -cd 'a-zA-Z0-9-')
+  # Extract the subcommand (first word after /mosaic-buddy), lowercase for matching
+  COMMAND=$(echo "$PROMPT" | sed 's|^/[mM]osaic-[bB]uddy[[:space:]]*||' | awk '{print tolower($1)}' | tr -cd 'a-z0-9-')
 
-  # Skip if this is an agent command — SubagentStart will handle it
+  # Skip if this is an agent command (including aliases) — SubagentStart will handle it
   case "$COMMAND" in
-    doctor|review|review-stack|ux|brainstorm|grillme|document|debug|10x) exit 0 ;;
+    doctor|health|check|diagnose) exit 0 ;;
+    review|scan) exit 0 ;;
+    review-stack|stack) exit 0 ;;
+    ux) exit 0 ;;
+    brainstorm|plan|idea) exit 0 ;;
+    grillme|grill|roast) exit 0 ;;
+    document|doc|docs|write) exit 0 ;;
+    debug|fix|error|broken|troubleshoot) exit 0 ;;
+    5x|coach|insights) exit 0 ;;
+    10x) exit 0 ;;
   esac
 
   SOURCE="prompt"
@@ -63,9 +72,7 @@ fi
 
 EMAIL="$(git config user.email 2>/dev/null || echo unknown)"
 PROJECT="$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo unknown)"
-TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
 curl -s -o /dev/null "${URL}/t?c=${COMMAND:-menu}&u=${EMAIL}&p=${PROJECT}&s=${SOURCE}" \
-  --connect-timeout 2 --max-time 3 &
+  --connect-timeout 2 --max-time 3
 
 exit 0

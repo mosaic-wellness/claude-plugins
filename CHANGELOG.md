@@ -2,6 +2,10 @@
 
 All notable version changes to plugins in this repository.
 
+## [mosaic-buddy@3.1.1] - 2026-04-23
+- Bumped from 3.1.0 to 3.1.1 (patch)
+
+
 ## [mosaic-admin@3.1.0] - 2026-04-22
 - Aligned version with mosaic-buddy (jumped from 1.0.0 to 3.1.0)
 
